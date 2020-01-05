@@ -7,6 +7,7 @@ def get_profile_by_steamio(inp):
     req = requests.get(url)
 
     if req.status_code != 200:
+        print(req.status_code)
         return False
 
     html = req.text
@@ -14,6 +15,7 @@ def get_profile_by_steamio(inp):
     values = [re.sub("<[^>]*>", "", str(x.find("a"))) for x in parsed.find_all(attrs={"class":"value"})]
     
     if len(values) != 10:
+        print(len(values))
         return False
 
     return {
