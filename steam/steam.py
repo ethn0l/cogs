@@ -64,15 +64,12 @@ class steam:
 
             if result:
                 response = ">>> "
-                
-                print(result)
-
-                for kn in result.keys():
+                ten = 0
+                for kn in result.keys() and ten <= 10:
                     if result[kn] != "None":
                         response += "**{}**: {}\n".format(kn.upper(), result[kn])
-
-                        await ctx.bot.send_message(ctx.message.channel, response)
-
+                    ten += 1
+                await ctx.bot.send_message(ctx.message.channel, response)
             else:
                 await ctx.bot.send_message(ctx.message.channel, "> Invalid input.")
 
