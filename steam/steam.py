@@ -64,6 +64,8 @@ class steam:
 
             if result:
                 response = ">>> "
+                
+                print(result)
 
                 for kn in result.keys():
                     if result[kn] != "None":
