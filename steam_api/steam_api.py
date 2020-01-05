@@ -34,6 +34,9 @@ from discord.ext import commands
 
 # Classname should be CamelCase and the same spelling as the folder
 class steam_api():
+    def __init__(self, bot):
+        self.bot = bot
+        
     """
     COG that provides the command [p]steam, that can parse steam input and return steamio.io details.
     """
