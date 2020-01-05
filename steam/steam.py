@@ -61,7 +61,7 @@ class steam:
         try:
             steam_reference = ctx.message.content.split(" ")[1]
             result = get_profile_by_steamio(steam_reference)
-            
+
             if result:
                 response = ">>> "
 
@@ -71,8 +71,9 @@ class steam:
 
                         await ctx.bot.send_message(ctx.message.channel, response)
 
-                    else:
-                        await ctx.bot.send_message(ctx.message.channel, "> Invalid input.")
+            else:
+                await ctx.bot.send_message(ctx.message.channel, "> Invalid input.")
+
         except:
             await ctx.bot.send_message(ctx.message.channel, "> Invalid input.")
 
