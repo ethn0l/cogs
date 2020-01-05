@@ -59,7 +59,7 @@ class steam:
         a full URL with customURL	http://steamcommunity.com/id/gabelogannewell
         """
         
-        steam_reference = ctx.message.content
+        steam_reference = ctx.message.content.split(" ")[1]
 
         result = get_profile_by_steamio(steam_reference)
         
