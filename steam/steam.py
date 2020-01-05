@@ -61,22 +61,20 @@ class steam:
         try:
             steam_reference = ctx.message.content.split(" ")[1]
             result = get_profile_by_steamio(steam_reference)
-                if result:
-                    response = ">>> "
+            
+            if result:
+                response = ">>> "
 
-                    for kn in result.keys():
-                        if result[kn] != "None":
-                            response += "**{}**: {}\n".format(kn.upper(), result[kn])
+                for kn in result.keys():
+                    if result[kn] != "None":
+                        response += "**{}**: {}\n".format(kn.upper(), result[kn])
 
-                            await ctx.bot.send_message(ctx.message.channel, response)
+                        await ctx.bot.send_message(ctx.message.channel, response)
 
-                        else:
-                            await ctx.bot.send_message(ctx.message.channel, "> Invalid input.")
+                    else:
+                        await ctx.bot.send_message(ctx.message.channel, "> Invalid input.")
         except:
             await ctx.bot.send_message(ctx.message.channel, "> Invalid input.")
-
-
-
 
 
 def setup(bot):
