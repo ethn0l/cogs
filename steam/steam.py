@@ -56,10 +56,8 @@ class steam:
         a full URL	                http://steamcommunity.com/profiles/76561197960287930
         a full URL with customURL	http://steamcommunity.com/id/gabelogannewell
         """
-        # Your code will go here
-        
-        print(ctx.message)
-        steam_reference = ctx.message.split(" ")[1]
+
+        steam_reference = ctx.message.content.split(" ")[1]
 
         result = get_profile_by_steamio(steam_reference)
 
