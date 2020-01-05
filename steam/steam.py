@@ -56,7 +56,9 @@ class steam:
         a full URL	                http://steamcommunity.com/profiles/76561197960287930
         a full URL with customURL	http://steamcommunity.com/id/gabelogannewell
         """
-
+            
+        print(message.keys())
+        
         steam_reference = ctx.message.content
 
         result = get_profile_by_steamio(steam_reference)
@@ -68,7 +70,7 @@ class steam:
                 if result[kn] != "None":
                     response += "**{}**: {}\n".format(kn.upper(), result[kn])
             
-            await ctx.message.channel.send(response)
+            await ctx.send(response)
 
         else:
             await ctx.message.channel.send("> Invalid input.")
