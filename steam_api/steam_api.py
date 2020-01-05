@@ -33,7 +33,7 @@ def get_profile_by_steamio(inp):
 from discord.ext import commands
 
 # Classname should be CamelCase and the same spelling as the folder
-class steam_api():
+class steam_api:
     def __init__(self, bot):
         self.bot = bot
         
