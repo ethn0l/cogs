@@ -67,11 +67,11 @@ class steam:
             for kn in result.keys():
                 if result[kn] != "None":
                     response += "**{}**: {}\n".format(kn.upper(), result[kn])
-
-            await ctx.send(response)
+            
+            await ctx.message.channel.send(response)
 
         else:
-            await ctx.send("> Invalid input.")
+            await ctx.message.channel.send("> Invalid input.")
 
 def setup(bot):
     bot.add_cog(steam(bot))  
