@@ -70,10 +70,10 @@ class steam:
                 if result[kn] != "None":
                     response += "**{}**: {}\n".format(kn.upper(), result[kn])
             
-            await ctx.send(response)
+            await ctx.bot.send_message(response)
 
         else:
-            await ctx.send("> Invalid input.")
+            await ctx.bot.send_message.send("> Invalid input.")
 
 def setup(bot):
     bot.add_cog(steam(bot))  
