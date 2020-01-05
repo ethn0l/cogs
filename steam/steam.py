@@ -73,7 +73,7 @@ class steam:
             await ctx.send(response)
 
         else:
-            await ctx.message.channel.send("> Invalid input.")
+            await ctx.send("> Invalid input.")
 
 def setup(bot):
     bot.add_cog(steam(bot))  
