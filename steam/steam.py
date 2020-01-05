@@ -57,7 +57,7 @@ class steam:
         a full URL with customURL	http://steamcommunity.com/id/gabelogannewell
         """
             
-        print([func for func in dir(ctx) if callable(getattr(ctx, func))])
+        # print([func for func in dir(ctx) if callable(getattr(ctx, func))])
         
         steam_reference = ctx.message.content
 
