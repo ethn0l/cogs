@@ -1,11 +1,15 @@
 import re
+import json
 import requests
+import string
 from bs4 import BeautifulSoup
+
+def get_profile_by_int64(int64):
+    return json.loads(requests.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=42514013F7D8A322C42DD6488F22D20C&format=json" + "&steamids=" + str(int64)).text)["response"]["players"][0]
 
 def get_profile_by_steamio(inp):
     url = "https://steamid.io/lookup/" + str(inp)
     req = requests.get(url)
-
     if req.status_code != 200:
         print(req.text)
         return False
@@ -17,6 +21,11 @@ def get_profile_by_steamio(inp):
     if len(values) != 10:
         print(len(values))
         return False
+
+    custom_url = get_profile_by_int64(values[2])["profileurl"].split("/")[:-1].pop()
+
+    if not custom_url.isnumeric():
+        values[3] = custom_url
 
     return {
         "steamid":values[0],
