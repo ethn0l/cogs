@@ -57,7 +57,7 @@ class steam:
         a full URL with customURL	http://steamcommunity.com/id/gabelogannewell
         """
             
-        print(dir(ctx))
+        print(dir(ctx), dir(ctx.bot), dir(ctx.cog), dir(ctx.command))
         
         steam_reference = ctx.message.content
 
