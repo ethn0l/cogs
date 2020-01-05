@@ -58,22 +58,26 @@ class steam:
         a full URL	                http://steamcommunity.com/profiles/76561197960287930
         a full URL with customURL	http://steamcommunity.com/id/gabelogannewell
         """
-        
-        steam_reference = ctx.message.content.split(" ")[1]
+        try:
+            steam_reference = ctx.message.content.split(" ")[1]
+            result = get_profile_by_steamio(steam_reference)
+             if result:
+                response = ">>> "
 
-        result = get_profile_by_steamio(steam_reference)
-        
-        if result:
-            response = ">>> "
-
-            for kn in result.keys():
-                if result[kn] != "None":
-                    response += "**{}**: {}\n".format(kn.upper(), result[kn])
+                for kn in result.keys():
+                    if result[kn] != "None":
+                        response += "**{}**: {}\n".format(kn.upper(), result[kn])
             
-            await ctx.bot.send_message(ctx.message.channel, response)
+                        await ctx.bot.send_message(ctx.message.channel, response)
 
-        else:
+                    else:
+                        await ctx.bot.send_message(ctx.message.channel, "> Invalid input.")
+        except:
             await ctx.bot.send_message(ctx.message.channel, "> Invalid input.")
+
+        
+        
+       
 
 def setup(bot):
     bot.add_cog(steam(bot))  
