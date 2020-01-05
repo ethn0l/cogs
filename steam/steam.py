@@ -64,18 +64,19 @@ class steam:
             print(result)
             if result:
                 response = ">>> "
-                ten = 0
-                for kn in result.keys() and ten <= 10:
+                for kn in result.keys():
                     if result[kn] != "None":
                         response += "**{}**: {}\n".format(kn.upper(), result[kn])
-                    ten += 1
+                    else:
+                        continue
                 await ctx.bot.send_message(ctx.message.channel, response)
 
             else:
                 await ctx.bot.send_message(ctx.message.channel, "> Invalid input.")
 
-        except:
-            await ctx.bot.send_message(ctx.message.channel, "> Invalid input.")
+        except Exception as e:
+            print(e)
+            await ctx.bot.send_message(ctx.message.channel, "> Failed to load steam.io")
 
 
 def setup(bot):
