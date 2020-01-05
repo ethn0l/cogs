@@ -7,7 +7,7 @@ def get_profile_by_steamio(inp):
     req = requests.get(url)
 
     if req.status_code != 200:
-        print(req.status_code)
+        print(req.text)
         return False
 
     html = req.text
@@ -62,7 +62,7 @@ class steam:
         steam_reference = ctx.message.content
 
         result = get_profile_by_steamio(steam_reference)
-        print(result)
+        
         if result:
             response = ">>> "
 
