@@ -6,6 +6,26 @@ import requests
 import string
 from bs4 import BeautifulSoup
 
+def get_title_for_box(steam_reference, username):
+    steamid_regex = re.compile("STEAM_[0-1]:\d{1, 20}")
+    steamid3_regex = re.compile("U:[0-9]:\d{1,20}")
+    steamid64_regex = re.compile("\d{17}")
+
+    if steamid_regex.match(steam_reference):
+        return "Searched for " + steam_reference + " as a STEAMID and found user **" + username + "**"
+
+    elif steamid3_regex.match(steam_reference):
+        return "Searched for " + steam_reference + " as a STEAMID3 and found user **" + username + "**"
+
+    elif steamid64_regex.match(steam_reference):
+        return "Searched for " + steam_reference + " as a STEAMID64 and found user **" + username + "**"
+
+    else:
+        # customurl
+        return "Searched for " + steam_reference + " as a customURL and found user **" + username + "**"
+
+
+
 def get_real_date(ts):
     return datetime.utcfromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
 
@@ -109,7 +129,7 @@ class steam:
             result = get_profile_by_steamio(steam_reference)
     
             if result:
-                embed = Embed(title=result["profile_name"], url=result["profile_url"])
+                embed = Embed(title=get_title_for_box(steam_reference, result["profile_name"]), url=result["profile_url"], color=0x000000)
 
                 if not result_only:
                     for kn in result.keys():
