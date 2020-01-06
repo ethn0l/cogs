@@ -1,5 +1,6 @@
 import re
 import json
+from difflib import get_close_matches
 import requests
 import string
 from bs4 import BeautifulSoup
@@ -67,24 +68,65 @@ class steam:
         a full URL	                http://steamcommunity.com/profiles/76561197960287930
         a full URL with customURL	http://steamcommunity.com/id/gabelogannewell
         """
+
+        one_message = False
+        result_only = None
+
         try:
-            steam_reference = ctx.message.content.split(" ")[1]
+            steam_reference = ctx.message.content.split(" ")
+
+            if len(steam_reference) <= 1:
+                if not one_message:
+                    await ctx.bot.send_message(ctx.message.channel, "> Invalid input.")
+                    one_message = True
+
+            elif len(steam_reference) == 2:
+                steam_reference = steam_reference[1]
+            
+            elif len(steam_reference) == 3:
+                steam_reference = steam_reference[1]
+                result_only = steam_reference[2]
+
             result = get_profile_by_steamio(steam_reference)
+    
             if result:
                 response = ">>> "
-                for kn in result.keys():
-                    if result[kn] != "None":
+                if not result_only or result_only:
+                    for kn in result.keys():
+                        if result[kn] != "None":
+                            response += "**{}**: {}\n".format(kn.upper(), result[kn]).replace("_", " ")
+                        else:
+                            continue
+
+                elif result_only:
+                    matches = get_close_matches(result_only, list(result.keys()))
+
+                    if len(matches) >= 1:
+                        kn = matches[0]
                         response += "**{}**: {}\n".format(kn.upper(), result[kn]).replace("_", " ")
-                    else:
-                        continue
-                await ctx.bot.send_message(ctx.message.channel, response)
+
+                        if not one_message:
+                            await ctx.bot.send_message(ctx.message.channel, response)
+                            one_message = True
+
+
+
+
+
+                if not one_message:
+                        await ctx.bot.send_message(ctx.message.channel, response)
+                        one_message = True
 
             else:
-                await ctx.bot.send_message(ctx.message.channel, "> Invalid input.")
+                if not one_message:
+                    await ctx.bot.send_message(ctx.message.channel, "> Invalid input.")
+                    one_message = True
 
         except Exception as e:
             print(e)
-            await ctx.bot.send_message(ctx.message.channel, "> Failed to load steam.io")
+            if not one_message:
+                await ctx.bot.send_message(ctx.message.channel, "> Failed to load steam.io")
+                one_message = True
 
 
 def setup(bot):
