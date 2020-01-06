@@ -25,7 +25,7 @@ def get_profile_by_steamio(inp):
 
     i = 0
 
-    if len(values) <= 10:
+    if len(values) < 10:
         print(values)
         print(len(values))
         return False
