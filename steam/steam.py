@@ -15,8 +15,8 @@ def get_profile_by_steamio(inp):
         return False
 
     html = req.text
-    parsed = BeautifulSoup(html, 'html.parser')
-    values = [re.sub("<[^>]*>", "", str(x.find("a"))) for x in parsed.find_all(attrs={"class":"value"})]
+    parsed = BeautifulSoup(html, 'html.parser').find_all(attrs={"class":"value"})
+    values = [re.sub("<[^>]*>", "", str(x.find("a") if str(x.find("span")) == "None" else str(x.find("span")))) for x in parsed]
 
     if len(values) != 10:
         print(len(values))
