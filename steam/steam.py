@@ -33,7 +33,7 @@ def get_profile_by_int64(int64):
     return json.loads(requests.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=42514013F7D8A322C42DD6488F22D20C&format=json" + "&steamids=" + str(int64)).text)["response"]["players"][0]
 
 def get_bans_by_int64(int64):
-    return json.loads(requests.get("http://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key=42514013F7D8A322C42DD6488F22D20C&format=json" + "&steamids=" + str(int64)).text)["response"]["players"][0]
+    return json.loads(requests.get("http://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key=42514013F7D8A322C42DD6488F22D20C&format=json" + "&steamids=" + str(int64)).text)["players"][0]
 
 def get_profile_by_steamio(inp):
     url = "https://steamid.io/lookup/" + str(inp)
