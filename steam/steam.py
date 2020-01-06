@@ -101,6 +101,7 @@ class steam:
                             continue
 
                 elif result_only:
+                    print(result_only)
                     opt = list(result.keys())
                     matches = get_close_matches(result_only, opt)
                     print(result_only, matches, opt)
