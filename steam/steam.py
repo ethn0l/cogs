@@ -206,7 +206,13 @@ class steam:
                 one_message = True
         
         await self.bot.delete_message(ctx.message) # delete message when done
-
+    
+    # !report implemented as -report
+    @commands.command(pass_context=True)
+    async def report(self, ctx):
+        embed=Embed(title="**THIS CHANNEL IS FOR EVIDENCE ONLY**", description="- Post the EVIDENCE\n - Post their steam profile link\n  - Mention what server they are on\n - And let us know what they are doing (cheating, trolling, griefing, etc)", color=0xe06100)
+        embed.add_field(name="To report a player in-game", value="- Type !calladmin in-game\n - Select a player you would like to report\n - Type the reason for this report then press enter", inline=False)
+        await self.bot.say(embed=embed)
 
 def setup(bot):
     bot.add_cog(steam(bot))  
