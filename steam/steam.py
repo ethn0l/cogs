@@ -113,8 +113,6 @@ class steam:
 
         try:
             com = ctx.message.content.split(" ")
-            await self.bot.delete_message(ctx.message) # delete message when done
-
             steam_reference = ""
 
             if len(com) <= 1:
@@ -207,6 +205,8 @@ class steam:
             if not one_message:
                 await ctx.bot.send_message(ctx.message.channel, "> Failed to load steam.io")
                 one_message = True
+        
+        await self.bot.delete_message(ctx.message) # delete message when done
 
 
 def setup(bot):
