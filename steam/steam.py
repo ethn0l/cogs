@@ -7,7 +7,7 @@ import string
 from bs4 import BeautifulSoup
 
 def get_real_date(ts):
-    return datetime.utcfromtimestamp(ts).strftime('%d-%m-%Y')
+    return datetime.utcfromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
 
 def get_profile_by_int64(int64):
     return json.loads(requests.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=42514013F7D8A322C42DD6488F22D20C&format=json" + "&steamids=" + str(int64)).text)["response"]["players"][0]
@@ -43,7 +43,7 @@ def get_profile_by_steamio(inp):
         values[3] = custom_url
 
     return {
-        "steamid":values[0],
+        "steamid":values[0].replace("0:0", "1:0").replace("0:1", "1:1"),
         "steamid3":values[1],
         "steamid64":values[2],
         "custom_url":values[3],
@@ -144,6 +144,8 @@ class steam:
             if not one_message:
                 await ctx.bot.send_message(ctx.message.channel, "> Failed to load steam.io")
                 one_message = True
+        
+        await self.bot.delete_message(ctx.message) # delete message when done
 
 
 def setup(bot):
