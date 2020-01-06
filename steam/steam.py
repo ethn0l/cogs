@@ -31,11 +31,13 @@ def get_profile_by_steamio(inp):
     elif len(values) > 10:
         i = len(values) - 10
 
+    # STEAM API
     steam_api = get_profile_by_int64(values[2])
     custom_url = steam_api["profileurl"].split("/")[:-1].pop()
     created = get_real_date(steam_api["timecreated"]) if "timecreated" in steam_api.keys() else "None"
     profilestate = "public" if steam_api["communityvisibilitystate"] - 1 else "private"
     profilename = steam_api["personaname"] if "personaname" in steam_api.keys() else "None"
+    lastlogoff = get_real_date(steam_api["lastlogoff"]) if "lastlogoff" in steam_api.keys() else "None"
 
     if not custom_url.isnumeric():
         values[3] = custom_url
@@ -50,6 +52,7 @@ def get_profile_by_steamio(inp):
         "profile_created":created,
         "location":values[7],
         "status":values[8],
+        "last_seen":lastlogoff,
         "profile_url":values[9+i]
     }
 
