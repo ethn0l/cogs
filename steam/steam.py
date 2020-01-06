@@ -180,11 +180,11 @@ class steam:
                     
 
                     if amount_of_game:
-                        vac_embed.title = "WARNING {} has {} game {}! ".format(result["profile_name"], amount_of_game, game_word)
+                        vac_embed.title = "WARNING {} has {} game {} on record! ".format(result["profile_name"], amount_of_game, game_word)
                         vac_embed.colour = 0xffff00
 
                     if bans["VACBanned"]:
-                        vac_embed.title = "WARNING {} has {} VAC {}! ".format(result["profile_name"], amount_of_vac, vac_word) + ("And {} Game {}!".format(amount_of_game, game_word) if amount_of_game else "")
+                        vac_embed.title = "WARNING {} has {} VAC {}".format(result["profile_name"], amount_of_vac, vac_word) + (" and {} Game {} on record!".format(amount_of_game, game_word) if amount_of_game else "on record!")
                         vac_embed.colour = 0xff0000
 
                     vac_embed.set_thumbnail(url="https://cdn2.iconfinder.com/data/icons/freecns-cumulus/32/519791-101_Warning-512.png")
