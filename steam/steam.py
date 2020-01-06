@@ -30,7 +30,7 @@ def get_profile_by_steamio(inp):
 
     # Get creation date
     try:
-        created = str(parsed.find_all("dd", attrs={"class":"short"})[3])
+        created = str(parsed.find_all("dd", attrs={"class":"short"})[4])
         print(created)
         created = re.sub("<[^>]*>", "", created)
         print(created)
