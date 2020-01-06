@@ -113,7 +113,7 @@ class steam:
                             continue
 
                 elif result_only:
-                    opt = list(result.keys())
+                    opt = [e.replace(" ") for e in list(result.keys())]
                     matches = get_close_matches(result_only, opt)
                     if len(matches) >= 1:
                         kn = matches[0]
