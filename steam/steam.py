@@ -179,9 +179,11 @@ class steam:
                     if bans["VACBanned"]:
                         vac_embed.title = "WARNING {} has {} VAC bans! ".format(result["profile_name"], amount_of_vac) + ("And {} Game bans!".format(amount_of_game) if amount_of_game else "")
                         vac_embed.colour = 0xff0000
+
+                    vac_embed.image = "https://cdn2.iconfinder.com/data/icons/freecns-cumulus/32/519791-101_Warning-512.png"
                     
-                    vac_embed.add_field(name="VAC bans on record", value=str(amount_of_vac), inline=False)
-                    vac_embed.add_field(name="Game bans on record", value=str(amount_of_game), inline=False)
+                    vac_embed.add_field(name="VAC bans", value=str(amount_of_vac), inline=False)
+                    vac_embed.add_field(name="Game bans", value=str(amount_of_game), inline=False)
                     vac_embed.add_field(name="Days since last ban", value=str(days_since_last), inline=False)
 
                     await ctx.bot.send_message(ctx.message.channel, embed=vac_embed)
