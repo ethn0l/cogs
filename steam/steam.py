@@ -51,7 +51,7 @@ def get_profile_by_steamio(inp):
         "profile_state":profilestate,
         "profile_created":created,
         "location":values[7],
-        "status":values[8],
+        # "status":values[8],
         "last_logoff":lastlogoff,
         "profile_url":values[9+i]
     }
