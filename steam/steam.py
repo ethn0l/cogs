@@ -164,6 +164,7 @@ class steam:
                 # CHECK FOR VAC BANS SEPERATE OF THE ONE MESSAGE LOOP
                 # Check for vac bans
                 bans = get_bans_by_int64(result["steamid64"])
+                print(bans)
                 vac_embed = Embed()
 
                 if bans["VACBanned"] or bans["NumberOfGameBans"]:
