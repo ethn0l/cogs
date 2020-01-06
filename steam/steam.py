@@ -73,8 +73,8 @@ class steam:
         result_only = None
 
         try:
-            print("COMMAND: " + ctx.message.content)
             steam_reference = ctx.message.content.split(" ")
+            print("COMMAND: " + ctx.message.content, steam_reference)
 
             if len(steam_reference) <= 1:
                 if not one_message:
