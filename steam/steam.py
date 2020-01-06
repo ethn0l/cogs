@@ -171,13 +171,22 @@ class steam:
                     days_since_last = bans["DaysSinceLastBan"]
                     amount_of_vac = bans["NumberOfVACBans"]
                     amount_of_game = bans["NumberOfGameBans"]
+                    vac_word = "bans"
+                    game_word = "bans"
+
+                    if amount_of_vac == 1:
+                        vac_word = "ban"
+                    
+                    if amount_of_game == 1:
+                        game_word = "ban"
+                    
 
                     if amount_of_game:
-                        vac_embed.title = "WARNING {} has {} game bans! ".format(result["profile_name"], amount_of_game)
+                        vac_embed.title = "WARNING {} has {} game {}! ".format(result["profile_name"], amount_of_game, game_word)
                         vac_embed.colour = 0xffff00
 
                     if bans["VACBanned"]:
-                        vac_embed.title = "WARNING {} has {} VAC bans! ".format(result["profile_name"], amount_of_vac) + ("And {} Game bans!".format(amount_of_game) if amount_of_game else "")
+                        vac_embed.title = "WARNING {} has {} VAC {}! ".format(result["profile_name"], amount_of_vac, vac_word) + ("And {} Game {}!".format(amount_of_game, game_word) if amount_of_game else "")
                         vac_embed.colour = 0xff0000
 
                     vac_embed.set_thumbnail(url="https://cdn2.iconfinder.com/data/icons/freecns-cumulus/32/519791-101_Warning-512.png")
