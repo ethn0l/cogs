@@ -7,9 +7,9 @@ import string
 from bs4 import BeautifulSoup
 
 def get_title_for_box(steam_reference, username):
-    steamid_regex = re.compile("STEAM_[0-1]:[0-1]:\d+")
-    steamid3_regex = re.compile("U:[0-9]:\d{1,20}")
-    steamid64_regex = re.compile("\d{17}")
+    steamid_regex = re.compile(r"STEAM_[0-1]:[0-1]:\d+")
+    steamid3_regex = re.compile(r"U:[0-9]:\d{1,20}")
+    steamid64_regex = re.compile(r"\d{17}")
 
     if steamid_regex.match(steam_reference):
         return steam_reference + " recognized as a STEAMID and found user **" + username + "**"
