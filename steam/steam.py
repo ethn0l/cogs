@@ -57,6 +57,7 @@ def get_profile_by_steamio(inp):
     }
 
 # SETUP RED SUPPORT HERE.
+from discord import Embed
 from discord.ext import commands
 
 # Classname should be CamelCase and the same spelling as the folder
@@ -108,12 +109,12 @@ class steam:
             result = get_profile_by_steamio(steam_reference)
     
             if result:
-                response = ">>> "
+                embed = Embed(title=result["profile_name"], url=result["profile_url"])
 
                 if not result_only:
                     for kn in result.keys():
                         if result[kn] != "None":
-                            response += "**{}**: {}\n".format(kn.upper().replace("_", " "), result[kn])
+                            embed.add_field(name=kn.upper().replace("_", " "), value=result[kn])
                         else:
                             continue
 
@@ -122,10 +123,10 @@ class steam:
                     matches = get_close_matches(result_only, opt)
                     if len(matches) >= 1:
                         kn = matches[0]
-                        response += "**{}**: {}\n".format(kn.upper(), result[kn]).replace("_", " ")
+                        embed.add_field(name=kn.upper().replace("_", " "), value=result[kn])
 
                         if not one_message:
-                            await ctx.bot.send_message(ctx.message.channel, response)
+                            await ctx.bot.send_message(ctx.message.channel, embed=embed)
                             one_message = True
                     else:
                         if not one_message:
@@ -133,7 +134,7 @@ class steam:
                             one_message = True
 
                 if not one_message:
-                        await ctx.bot.send_message(ctx.message.channel, response)
+                        await ctx.bot.send_message(ctx.message.channel, embed=embed)
                         one_message = True
 
             else:
