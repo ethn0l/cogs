@@ -103,6 +103,8 @@ class steam:
                 steam_reference = com[1]
                 result_only = ' '.join(com[2:])
 
+            await self.bot.delete_message(ctx.message) # delete message when done
+
             result = get_profile_by_steamio(steam_reference)
     
             if result:
@@ -144,8 +146,6 @@ class steam:
             if not one_message:
                 await ctx.bot.send_message(ctx.message.channel, "> Failed to load steam.io")
                 one_message = True
-        
-        await self.bot.delete_message(ctx.message) # delete message when done
 
 
 def setup(bot):
