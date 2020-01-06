@@ -111,7 +111,7 @@ class steam:
                 if not result_only:
                     for kn in result.keys():
                         if result[kn] != "None":
-                            response += "**{}**: {}\n".format(kn.upper(), result[kn]).replace("_", " ")
+                            response += "**{}**: {}\n".format(kn.upper().replace("_", " "), result[kn])
                         else:
                             continue
 
