@@ -91,7 +91,8 @@ class steam:
     
             if result:
                 response = ">>> "
-                if not result_only or result_only:
+
+                if not result_only:
                     for kn in result.keys():
                         if result[kn] != "None":
                             response += "**{}**: {}\n".format(kn.upper(), result[kn]).replace("_", " ")
@@ -108,10 +109,6 @@ class steam:
                         if not one_message:
                             await ctx.bot.send_message(ctx.message.channel, response)
                             one_message = True
-
-
-
-
 
                 if not one_message:
                         await ctx.bot.send_message(ctx.message.channel, response)
