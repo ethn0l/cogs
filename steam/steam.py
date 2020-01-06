@@ -33,7 +33,7 @@ def get_profile_by_steamio(inp):
         "steamid":values[0],
         "steamid3":values[1],
         "steamid64":values[2],
-        "customurl":values[3],
+        "custom_url":values[3],
         "profile_state":values[4],
         "profile_created":values[5],
         "name":values[6],
@@ -77,7 +77,7 @@ class steam:
                 response = ">>> "
                 for kn in result.keys():
                     if result[kn] != "None":
-                        response += "**{}**: {}\n".format(kn.upper(), result[kn])
+                        response += "**{}**: {}\n".format(kn.upper(), result[kn]).replace("_", " ")
                     else:
                         continue
                 await ctx.bot.send_message(ctx.message.channel, response)
