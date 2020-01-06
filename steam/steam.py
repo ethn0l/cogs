@@ -16,8 +16,8 @@ def get_profile_by_steamio(inp):
         return False
 
     html = req.text
-    parsed = BeautifulSoup(html, 'html.parser').find_all(attrs={"class":"value"})
-    values = [re.sub("<[^>]*>", "", str(x.find("a") if str(x.find("span")) == "None" else str(x.find("span")))) for x in parsed]
+    parsed = BeautifulSoup(html, 'html.parser')
+    values = [re.sub("<[^>]*>", "", str(x.find("a") if str(x.find("span")) == "None" else str(x.find("span")))) for x in parsed.find_all(attrs={"class":"value"})]
 
     if len(values) != 10:
         print(len(values))
@@ -27,6 +27,13 @@ def get_profile_by_steamio(inp):
 
     if not custom_url.isnumeric():
         values[3] = custom_url
+
+    created = parsed.find("dd", attrs={"class":"short"})
+
+    if "content" in dir(created):
+        values[5] = re.sub("<[^>]*>", "",created.content)
+    else:
+        values[5] = "None"
 
     return {
         "steamid":values[0],
