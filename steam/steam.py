@@ -28,12 +28,11 @@ def get_profile_by_steamio(inp):
     if not custom_url.isnumeric():
         values[3] = custom_url
 
-    created = parsed.find_all("dd", attrs={"class":"short"})[4]
-    print(created)
-    if "content" in dir(created):
-        values[5] = re.sub("<[^>]*>", "",created.content)
-    else:
-        values[5] = "None"
+    # Get creation date
+    try:
+        created = re.sub("<[^>]*>", "", parsed.find_all("dd", attrs={"class":"short"})[4].content)
+    except:
+        created = "None"
 
     return {
         "steamid":values[0],
@@ -41,7 +40,7 @@ def get_profile_by_steamio(inp):
         "steamid64":values[2],
         "custom_url":values[3],
         "profile_state":values[4],
-        "profile_created":values[5],
+        "profile_created":created,
         "name":values[6],
         "location":values[7],
         "status":values[8],
