@@ -130,6 +130,7 @@ class steam:
     
             if result:
                 embed = Embed(title=get_title_for_box(steam_reference, result["profile_name"]), url=result["profile_url"], color=0xd6c8ff)
+                embed.set_footer(text="Results provided by Valve and STEAMID I/O. Author: 4ppl3#0018")
 
                 if not result_only:
                     for kn in result.keys():
