@@ -129,7 +129,7 @@ class steam:
             result = get_profile_by_steamio(steam_reference)
     
             if result:
-                embed = Embed(title=get_title_for_box(steam_reference, result["profile_name"]), url=result["profile_url"], color=0x000000)
+                embed = Embed(title=get_title_for_box(steam_reference, result["profile_name"]), url=result["profile_url"], color=0xd6Upc8ff)
 
                 if not result_only:
                     for kn in result.keys():
