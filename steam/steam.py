@@ -173,12 +173,12 @@ class steam:
                     amount_of_game = bans["NumberOfGameBans"]
 
                     if amount_of_game:
-                        vac_embed.title = "Warning {} has {} game bans!".format(result["profile_name"], amount_of_game)
-                        vac_embed.colour = 0xFFFF00
+                        vac_embed.title = "WARNING {} has {} game bans! ".format(result["profile_name"], amount_of_game)
+                        vac_embed.colour = 0xffff00
 
                     if bans["VACBanned"]:
-                        vac_embed.title = "Warning {} has {} vac bans!".format(result["profile_name"], amount_of_vac) + ("And {} Game bans!".format(amount_of_game) if amount_of_game else "")
-                        vac_embed.colour = 0xFF0000
+                        vac_embed.title = "WARNING {} has {} VAC bans! ".format(result["profile_name"], amount_of_vac) + ("And {} Game bans!".format(amount_of_game) if amount_of_game else "")
+                        vac_embed.colour = 0xff0000
                     
                     vac_embed.add_field(name="VAC bans on record", value=str(amount_of_vac), inline=False)
                     vac_embed.add_field(name="Game bans on record", value=str(amount_of_game), inline=False)
