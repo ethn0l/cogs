@@ -77,18 +77,17 @@ class steam:
             steam_reference = ""
             print("COMMAND: " + ctx.message.content, com)
 
-            if len(steam_reference) <= 1:
+            if len(com) <= 1:
                 if not one_message:
                     await ctx.bot.send_message(ctx.message.channel, "> Invalid input.")
                     one_message = True
 
-            elif len(steam_reference) == 2:
+            elif len(com) == 2:
                 steam_reference = com[1]
             
-            elif len(steam_reference) == 3:
+            elif len(com) == 3:
                 steam_reference = com[1]
                 result_only = com[2]
-                print(com[2])
 
             result = get_profile_by_steamio(steam_reference)
     
