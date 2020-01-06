@@ -26,8 +26,6 @@ def get_profile_by_steamio(inp):
     i = 0
 
     if len(values) < 10:
-        print(values)
-        print(len(values))
         return False
 
     elif len(values) > 10:
@@ -88,7 +86,6 @@ class steam:
         try:
             com = ctx.message.content.split(" ")
             steam_reference = ""
-            print("COMMAND: " + ctx.message.content, com)
 
             if len(com) <= 1:
                 if not one_message:
