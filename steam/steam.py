@@ -21,7 +21,7 @@ def get_profile_by_steamio(inp):
 
     html = req.text
     parsed = BeautifulSoup(html, 'html.parser')
-    values = [re.sub("<[^>]*>", "", str(x.find("a") if str(x.find("span")) == "None" else str(x.find("span")))) for x in parsed.find_all(attrs={"class":"value"})]
+    values = [re.sub("<[^>]*>", "", str(x.find("a"))) for x in parsed.find_all(attrs={"class":"value"})]
 
     if len(values) != 10:
         print(len(values))
@@ -29,7 +29,8 @@ def get_profile_by_steamio(inp):
     steam_api = get_profile_by_int64(values[2])
     custom_url = steam_api["profileurl"].split("/")[:-1].pop()
     created = get_real_date(steam_api["timecreated"]) if steam_api["timecreated"] else "None"
-    
+    profilestate = "public" if steam_api["profilestate"] else "private"
+
     if not custom_url.isnumeric():
         values[3] = custom_url
 
@@ -38,7 +39,7 @@ def get_profile_by_steamio(inp):
         "steamid3":values[1],
         "steamid64":values[2],
         "custom_url":values[3],
-        "profile_state":values[4],
+        "profile_state":profilestate,
         "profile_created":created,
         "name":values[6],
         "location":values[7],
