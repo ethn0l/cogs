@@ -79,7 +79,7 @@ class steam:
 
             if len(com) <= 1:
                 if not one_message:
-                    await ctx.bot.send_message(ctx.message.channel, "> Invalid input.")
+                    await ctx.bot.send_message(ctx.message.channel, "> No steam reference given.")
                     one_message = True
 
             elif len(com) == 2:
@@ -113,7 +113,7 @@ class steam:
                             one_message = True
                     else:
                         if not one_message:
-                            await ctx.bot.send_message(ctx.message.channel, "> Invalid output.")
+                            await ctx.bot.send_message(ctx.message.channel, "> No such return as '" + result_only + "' in this search.")
                             one_message = True
 
                 if not one_message:
@@ -122,7 +122,7 @@ class steam:
 
             else:
                 if not one_message:
-                    await ctx.bot.send_message(ctx.message.channel, "> Invalid input.")
+                    await ctx.bot.send_message(ctx.message.channel, "> Steam reference could not be found.")
                     one_message = True
 
         except Exception as e:
