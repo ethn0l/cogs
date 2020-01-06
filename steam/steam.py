@@ -1,9 +1,13 @@
 import re
 import json
+from datetime import datetime
 from difflib import get_close_matches
 import requests
 import string
 from bs4 import BeautifulSoup
+
+def get_real_date(ts):
+    return datetime.utcfromtimestamp(ts).strftime('%d-%m-%Y')
 
 def get_profile_by_int64(int64):
     return json.loads(requests.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=42514013F7D8A322C42DD6488F22D20C&format=json" + "&steamids=" + str(int64)).text)["response"]["players"][0]
@@ -22,21 +26,12 @@ def get_profile_by_steamio(inp):
     if len(values) != 10:
         print(len(values))
         return False
-
-    custom_url = get_profile_by_int64(values[2])["profileurl"].split("/")[:-1].pop()
-
+    steam_api = get_profile_by_int64(values[2])
+    custom_url = steam_api["profileurl"].split("/")[:-1].pop()
+    created = get_real_date(steam_api["timecreated"]) if steam_api["timecreated"] else "None"
+    
     if not custom_url.isnumeric():
         values[3] = custom_url
-
-    # Get creation date
-    try:
-        created = str(parsed.find_all("dd", attrs={"class":"short"})[4])
-        print(created)
-        created = re.sub("<[^>]*>", "", created)
-        print(created)
-    except Exception as e:
-        print(e)
-        created = "None"
 
     return {
         "steamid":values[0],
