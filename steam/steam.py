@@ -23,13 +23,20 @@ def get_profile_by_steamio(inp):
     parsed = BeautifulSoup(html, 'html.parser')
     values = [re.sub("<[^>]*>", "", str(x.find("a"))) for x in parsed.find_all(attrs={"class":"value"})]
 
-    if len(values) != 10:
+    i = 0
+
+    if len(values) <= 10:
+        print(values)
         print(len(values))
         return False
+
+    elif len(values) > 10:
+        i = len(values) - 10
+
     steam_api = get_profile_by_int64(values[2])
     custom_url = steam_api["profileurl"].split("/")[:-1].pop()
-    created = get_real_date(steam_api["timecreated"]) if steam_api["timecreated"] else "None"
-    profilestate = "public" if steam_api["profilestate"] else "private"
+    created = get_real_date(steam_api["timecreated"]) if "timecreated" in steam_api.keys() else "None"
+    profilestate = "public" if steam_api["communityvisibilitystate"] - 1 else "private"
 
     if not custom_url.isnumeric():
         values[3] = custom_url
@@ -44,7 +51,7 @@ def get_profile_by_steamio(inp):
         "name":values[6],
         "location":values[7],
         "status":values[8],
-        "profile_url":values[9]
+        "profile_url":values[9+i]
     }
 
 # SETUP RED SUPPORT HERE.
