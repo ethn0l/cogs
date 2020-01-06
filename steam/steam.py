@@ -87,6 +87,7 @@ class steam:
             elif len(steam_reference) == 3:
                 steam_reference = steam_reference[1]
                 result_only = steam_reference[2]
+                print(result_only)
 
             result = get_profile_by_steamio(steam_reference)
     
@@ -101,10 +102,8 @@ class steam:
                             continue
 
                 elif result_only:
-                    print(result_only)
                     opt = list(result.keys())
                     matches = get_close_matches(result_only, opt)
-                    print(result_only, matches, opt)
                     if len(matches) >= 1:
                         kn = matches[0]
                         response += "**{}**: {}\n".format(kn.upper(), result[kn]).replace("_", " ")
