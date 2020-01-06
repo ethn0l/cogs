@@ -66,7 +66,7 @@ def get_profile_by_steamio(inp):
         values[3] = custom_url
 
     return {
-        "steamid":values[0].replace("0:0", "1:0").replace("0:1", "1:1"),
+        "steamid":values[0].replace("0:0:", "1:0:").replace("0:1:", "1:1:"),
         "steamid3":values[1],
         "steamid64":values[2],
         "custom_url":values[3],
