@@ -27,6 +27,8 @@ def get_profile_by_steamio(inp):
     if not custom_url.isnumeric():
         values[3] = custom_url
 
+    print(values[4])
+
     return {
         "steamid":values[0],
         "steamid3":values[1],
