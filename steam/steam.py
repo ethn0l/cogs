@@ -89,6 +89,8 @@ class steam:
 
         try:
             com = ctx.message.content.split(" ")
+            await self.bot.delete_message(ctx.message) # delete message when done
+
             steam_reference = ""
 
             if len(com) <= 1:
@@ -102,8 +104,6 @@ class steam:
             elif len(com) >= 3:
                 steam_reference = com[1]
                 result_only = ' '.join(com[2:])
-
-            await self.bot.delete_message(ctx.message) # delete message when done
 
             result = get_profile_by_steamio(steam_reference)
     
