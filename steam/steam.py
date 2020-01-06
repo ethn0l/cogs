@@ -101,13 +101,17 @@ class steam:
 
                 elif result_only:
                     matches = get_close_matches(result_only, list(result.keys()))
-
+                    print(matches)
                     if len(matches) >= 1:
                         kn = matches[0]
                         response += "**{}**: {}\n".format(kn.upper(), result[kn]).replace("_", " ")
 
                         if not one_message:
                             await ctx.bot.send_message(ctx.message.channel, response)
+                            one_message = True
+                    else:
+                        if not one_message:
+                            await ctx.bot.send_message(ctx.message.channel, "> Invalid output.")
                             one_message = True
 
                 if not one_message:
