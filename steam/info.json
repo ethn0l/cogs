@@ -10,7 +10,7 @@
     "hidden":false,
     "disabled":false,
     "required_cogs":[],
-    "requirements":["re", "requests", "bs4"],
+    "requirements":["requests", "bs4"],
     "tags":[],
     "type":"COG"
 }
