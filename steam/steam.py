@@ -29,7 +29,7 @@ def get_profile_by_steamio(inp):
         values[3] = custom_url
 
     created = parsed.find("dd", attrs={"class":"short"})
-
+    print(created)
     if "content" in dir(created):
         values[5] = re.sub("<[^>]*>", "",created.content)
     else:
