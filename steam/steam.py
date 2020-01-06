@@ -100,8 +100,9 @@ class steam:
                             continue
 
                 elif result_only:
-                    matches = get_close_matches(result_only, list(result.keys()))
-                    print(matches)
+                    opt = list(result.keys())
+                    matches = get_close_matches(result_only, opt)
+                    print(matches, opt)
                     if len(matches) >= 1:
                         kn = matches[0]
                         response += "**{}**: {}\n".format(kn.upper(), result[kn]).replace("_", " ")
