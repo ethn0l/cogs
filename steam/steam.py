@@ -182,8 +182,8 @@ class steam:
 
                     vac_embed.set_thumbnail(url="https://cdn2.iconfinder.com/data/icons/freecns-cumulus/32/519791-101_Warning-512.png")
                     
-                    vac_embed.add_field(name="VAC bans", value=str(amount_of_vac), inline=False)
-                    vac_embed.add_field(name="Game bans", value=str(amount_of_game), inline=False)
+                    vac_embed.add_field(name="VAC bans", value=str(amount_of_vac), inline=True)
+                    vac_embed.add_field(name="Game bans", value=str(amount_of_game), inline=True)
                     vac_embed.add_field(name="Days since last ban", value=str(days_since_last), inline=False)
 
                     await ctx.bot.send_message(ctx.message.channel, embed=vac_embed)
