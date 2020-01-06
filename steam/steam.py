@@ -85,9 +85,9 @@ class steam:
             elif len(com) == 2:
                 steam_reference = com[1]
             
-            elif len(com) == 3:
+            elif len(com) >= 3:
                 steam_reference = com[1]
-                result_only = com[2]
+                result_only = ' '.join(com[2:])
 
             result = get_profile_by_steamio(steam_reference)
     
