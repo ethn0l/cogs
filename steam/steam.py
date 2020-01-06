@@ -32,6 +32,9 @@ def get_real_date(ts):
 def get_profile_by_int64(int64):
     return json.loads(requests.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=42514013F7D8A322C42DD6488F22D20C&format=json" + "&steamids=" + str(int64)).text)["response"]["players"][0]
 
+def get_bans_by_int64(int64):
+    return json.loads(requests.get("http://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key=42514013F7D8A322C42DD6488F22D20C&format=json" + "&steamids=" + str(int64)).text)["response"]["players"][0]
+
 def get_profile_by_steamio(inp):
     url = "https://steamid.io/lookup/" + str(inp)
     req = requests.get(url)
@@ -157,6 +160,30 @@ class steam:
                 if not one_message:
                         await ctx.bot.send_message(ctx.message.channel, embed=embed)
                         one_message = True
+                
+                # CHECK FOR VAC BANS SEPERATE OF THE ONE MESSAGE LOOP
+                # Check for vac bans
+                bans = get_bans_by_int64(result["steamid64"])
+                vac_embed = Embed()
+
+                if bans["VACBanned"] or bans["NumberOfGameBans"]:
+                    days_since_last = bans["DaysSinceLastBan"]
+                    amount_of_vac = bans["NumberOfVACBans"]
+                    amount_of_game = bans["NumberOfGameBans"]
+
+                    if amount_of_game:
+                        vac_embed.title = "Warning {} has {} game bans!".format(result["profile_name"], amount_of_game)
+                        vac_embed.colour = 0xFFFF00
+
+                    if bans["VACBanned"]:
+                        vac_embed.title = "Warning {} has {} vac bans!".format(result["profile_name"], amount_of_vac) + ("And {} Game bans!".format(amount_of_game) if amount_of_game else "")
+                        vac_embed.colour = 0xFF0000
+                    
+                    vac_embed.add_field(name="VAC bans on record", value=str(amount_of_vac), inline=False)
+                    vac_embed.add_field(name="Game bans on record", value=str(amount_of_game), inline=False)
+                    vac_embed.add_field(name="Days since last ban", value=str(days_since_last), inline=False)
+
+                    await ctx.bot.send_message(ctx.message.channel, embed=vac_embed)
 
             else:
                 if not one_message:
