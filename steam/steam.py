@@ -73,8 +73,9 @@ class steam:
         result_only = None
 
         try:
-            steam_reference = ctx.message.content.split(" ")
-            print("COMMAND: " + ctx.message.content, steam_reference)
+            com = ctx.message.content.split(" ")
+            steam_reference = ""
+            print("COMMAND: " + ctx.message.content, com)
 
             if len(steam_reference) <= 1:
                 if not one_message:
@@ -82,12 +83,12 @@ class steam:
                     one_message = True
 
             elif len(steam_reference) == 2:
-                steam_reference = steam_reference[1]
+                steam_reference = com[1]
             
             elif len(steam_reference) == 3:
-                steam_reference = steam_reference[1]
-                result_only = steam_reference[2]
-                print(result_only)
+                steam_reference = com[1]
+                result_only = com[2]
+                print(com[2])
 
             result = get_profile_by_steamio(steam_reference)
     
