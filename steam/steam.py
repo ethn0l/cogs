@@ -31,6 +31,7 @@ def get_profile_by_steamio(inp):
     # Get creation date
     try:
         created = re.sub("<[^>]*>", "", str(parsed.find_all("dd", attrs={"class":"short"})[4].content))
+        print(created)
     except Exception as e:
         print(e)
         created = "None"
