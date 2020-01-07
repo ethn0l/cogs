@@ -213,6 +213,20 @@ class steam:
         embed=Embed(title="**THIS CHANNEL IS FOR EVIDENCE ONLY**", description="- Post the EVIDENCE\n - Post their steam profile link\n  - Mention what server they are on\n - And let us know what they are doing (cheating, trolling, griefing, etc)", color=0xe06100)
         embed.add_field(name="To report a player in-game", value="- Type !calladmin in-game\n - Select a player you would like to report\n - Type the reason for this report then press enter", inline=False)
         await self.bot.say(embed=embed)
+    
+    # !rules implemented as -rules
+    @commands.command(pass_context=True)
+    async def rules(self, ctx):
+        embed = Embed(title="**RULES**", color=0xffffff)
+        embed.add_field(name="Rule 1", value="Speak only english via vocie or text chat to maintain clear channels of communication.", inline=False)
+        embed.add_field(name="Rule 2 ", value="Go not grief, cheat, script, exploit, or use hacks of any kind. If found to be in breach of this rule, bns recieived will be **permanent** and **unappealable**.", inline=False)
+        embed.add_field(name="Rule 3 ", value="Do not impersonate any members or staff.", inline=False)
+        embed.add_field(name="Rule 4", value="No smurf accounts/alts.\n **NOTE: In a rising trend on our servers, Alts/Smurfs are being frequently used to throw games, cheat, or evade previous bns, therefore, if caught using an Alt/Smurf account, it will be permanently banned from the servers. Bans for this do not carry across accounts. Accounts with VAC / Game Bans received over __365 days__ are exempt from this rule.", inline=False)
+        embed.add_field(name="Rule 5", value="Do not abuse !calladmin. This feature is pivotal for moderating the servers and abuse of the system is dealt with promptly and bans will not be overturned.", inline=False)
+        embed.add_field(name="Rule 6", value="Advertisements of any kind are forbidden, Solicitating the sales of services (hacks, boosting, etc.), linking players to external sites (gamling etc.), or the promotion of servers other than Baited.xyz is strictly prohibited.", inline=False)
+        embed.add_field(name="Rule 7", value="Treat other players with respect. INstances of malicious racism, sexism or homophobia are frowned upon and when found to be in breach of this rule, bans will progressively increase with each cumulative offence.", inline=False)
+        embed.add_field(name="Rule 8", value="Do not disript the server in any way. Acts of disruption can include, but are not limited to:\n     - Mic/Chat Spam\n.    - Trolling\n   - Team Flashing \n    - Blocking\n   - Ghosting\n    - Shooting allies to reveal their position", inline=False)
+        await self.bot.say(embed=embed)
 
 def setup(bot):
     bot.add_cog(steam(bot))  
