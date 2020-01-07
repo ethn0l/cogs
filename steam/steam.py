@@ -12,17 +12,17 @@ def get_title_for_box(steam_reference, username):
     steamid64_regex = re.compile(r"\d{17}")
 
     if steamid_regex.match(steam_reference):
-        return steam_reference + " recognized as a STEAMID and found user **" + username + "**"
+        return steam_reference + " recognized as a STEAMID and found user " + username
 
     elif steamid3_regex.match(steam_reference.strip("[").strip("]")):
-        return steam_reference + " recognized as a STEAMID3 and found user **" + username + "**"
+        return steam_reference + " recognized as a STEAMID3 and found user " + username
 
     elif steamid64_regex.match(steam_reference):
-        return steam_reference + " recognized as a STEAMID64 and found user **" + username + "**"
+        return steam_reference + " recognized as a STEAMID64 and found user " + username
 
     else:
         # customurl
-        return steam_reference + " recognized as a customURL and found user **" + username + "**"
+        return steam_reference + " recognized as a customURL and found user " + username
 
 
 
