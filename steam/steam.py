@@ -76,7 +76,8 @@ def get_profile_by_steamio(inp):
         "location":values[7],
         # "status":values[8],
         "last_logoff":lastlogoff,
-        "profile_url":values[9+i]
+        "profile_url":values[9+i],
+        "avatar":steam_api["avatar"]
     }
 
 # SETUP RED SUPPORT HERE.
@@ -130,7 +131,11 @@ class steam:
             result = get_profile_by_steamio(steam_reference)
     
             if result:
-                embed = Embed(title=get_title_for_box(steam_reference, result["profile_name"]), url=result["profile_url"], color=0xd6c8ff)
+                icon = result["avatar"]
+                del result["avatar"]
+
+                embed = Embed(color=0xd6c8ff)
+                embed.set_author(name=get_title_for_box(steam_reference, result["profile_name"]), url=result["profile_url"], icon_url=icon)
                 embed.set_footer(text="Results provided by Valve and STEAMID I/O. Author: 4ppl3#0018")
 
                 if not result_only:
