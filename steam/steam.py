@@ -77,7 +77,7 @@ def get_profile_by_steamio(inp):
         # "status":values[8],
         "last_logoff":lastlogoff,
         "profile_url":values[9+i],
-        "avatar":steam_api["avatar"]
+        "avatar":steam_api["avatarfull"]
     }
 
 # SETUP RED SUPPORT HERE.
