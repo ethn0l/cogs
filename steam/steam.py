@@ -216,7 +216,8 @@ class steam:
         embed=Embed(title="**THIS CHANNEL IS FOR EVIDENCE ONLY**", description="- Post the EVIDENCE\n - Post their steam profile link\n  - Mention what server they are on\n - And let us know what they are doing (cheating, trolling, griefing, etc)", color=0xe06100)
         embed.add_field(name="To report a player in-game", value="- Type !calladmin in-game\n - Select a player you would like to report\n - Type the reason for this report then press enter", inline=False)
         await self.bot.say(embed=embed)
-    
+        await self.bot.delete_message(ctx.message)
+
     # !rules implemented as -rules
     @commands.command(pass_context=True)
     async def rules(self, ctx):
@@ -230,6 +231,7 @@ class steam:
         embed.add_field(name="Rule 7", value="Treat other players with respect. Inastances of malicious racism, sexism or homophobia are frowned upon and when found to be in breach of this rule, bans will progressively increase with each cumulative offence.", inline=False)
         embed.add_field(name="Rule 8", value="Do not disript the server in any way. Acts of disruption can include, but are not limited to:\n\n  - Mic/Chat Spam\n - Trolling\n   - Team Flashing \n - Blocking\n - Ghosting\n - Shooting allies to reveal their position", inline=False)
         await self.bot.say(embed=embed)
+        await self.bot.delete_message(ctx.message)
 
 def setup(bot):
     bot.add_cog(steam(bot))  
