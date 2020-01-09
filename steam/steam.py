@@ -28,10 +28,10 @@ def get_real_date(ts):
     return datetime.utcfromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
 
 def get_profile_by_int64(int64):
-    return json.loads(requests.get(x("aHR0cDovL2FwaS5zdGVhbXBvd2VyZWQuY29tL0lTdGVhbVVzZXIvR2V0UGxheWVyU3VtbWFyaWVzL3YwMDAyLz9rZXk9MTYyMDRERDQwRTc4M0Q3QkMxRTU1NEREREVBN0JBQ0EmZm9ybWF0PWpzb24=").decode("utf-8") + "&steamids=" + str(int64)).text)["response"]["players"][0]
+    return json.loads(requests.get(x("aHR0cDovL2FwaS5zdGVhbXBvd2VyZWQuY29tL0lTdGVhbVVzZXIvR2V0UGxheWVyU3VtbWFyaWVzL3YwMDAyLz9rZXk9OUU1QTNEQTJCRDVEQkVEMEQzNDNDNkExQ0JBMDlDRUImZm9ybWF0PWpzb24=").decode("utf-8") + "&steamids=" + str(int64)).text)["response"]["players"][0]
 
 def get_bans_by_int64(int64):
-    return json.loads(requests.get(x("aHR0cDovL2FwaS5zdGVhbXBvd2VyZWQuY29tL0lTdGVhbVVzZXIvR2V0UGxheWVyQmFucy92MS8/a2V5PTE2MjA0REQ0MEU3ODNEN0JDMUU1NTRERERFQTdCQUNBJmZvcm1hdD1qc29u").decode("utf-8") + "&steamids=" + str(int64)).text)["players"][0]
+    return json.loads(requests.get(x("aHR0cDovL2FwaS5zdGVhbXBvd2VyZWQuY29tL0lTdGVhbVVzZXIvR2V0UGxheWVyQmFucy92MS8/a2V5PTlFNUEzREEyQkQ1REJFRDBEMzQzQzZBMUNCQTA5Q0VCJmZvcm1hdD1qc29u").decode("utf-8") + "&steamids=" + str(int64)).text)["players"][0]
 
 def get_profile_by_steamio(inp):
     url = "https://steamid.io/lookup/" + str(inp)
@@ -168,18 +168,10 @@ class steam:
                 vac_embed = Embed()
 
                 if bans["VACBanned"] or bans["NumberOfGameBans"]:
-                    days_since_last = bans["DaysSinceLastBan"]
                     amount_of_vac = bans["NumberOfVACBans"]
                     amount_of_game = bans["NumberOfGameBans"]
-                    vac_word = "bans"
-                    game_word = "bans"
-
-                    if amount_of_vac == 1:
-                        vac_word = "ban"
-                    
-                    if amount_of_game == 1:
-                        game_word = "ban"
-                    
+                    vac_word = "ban" if amount_of_vac == 1 else "bans"
+                    game_word = "ban" if amount_of_game == 1 else "bans"
 
                     if amount_of_game:
                         vac_embed.title = "WARNING {} has {} game {} on record! ".format(result["profile_name"], amount_of_game, game_word)
@@ -193,7 +185,7 @@ class steam:
                     
                     vac_embed.add_field(name="VAC bans", value=str(amount_of_vac), inline=True)
                     vac_embed.add_field(name="Game bans", value=str(amount_of_game), inline=True)
-                    vac_embed.add_field(name="Days since last ban", value=str(days_since_last), inline=False)
+                    vac_embed.add_field(name="Days since last ban", value=str(bans["DaysSinceLastBan"]), inline=False)
 
                     await ctx.bot.send_message(ctx.message.channel, embed=vac_embed)
 
@@ -205,7 +197,7 @@ class steam:
         except Exception as e:
             print(e)
             if not one_message:
-                await ctx.bot.send_message(ctx.message.channel, "> Failed to load steam.io")
+                await ctx.bot.send_message(ctx.message.channel, "> Failed to load steam.io/steam api. See console for error dump.")
                 one_message = True
         
         await self.bot.delete_message(ctx.message) # delete message when done
