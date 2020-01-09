@@ -7,7 +7,7 @@ import requests
 import string
 from bs4 import BeautifulSoup
 
-KEY = os.environ["STEAM_API_KEY"]
+KEY = "2CD774287543683380F3E200E819F8D4"
 
 def get_title_for_box(steam_reference, username):
     steamid_regex = re.compile(r"STEAM_[0-1]:[0-1]:\d+")
