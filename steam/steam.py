@@ -1,10 +1,13 @@
 import re
+import os
 import json
 from datetime import datetime
 from difflib import get_close_matches
 import requests
-import string; from base64 import b64decode as x
+import string
 from bs4 import BeautifulSoup
+
+KEY = os.environ["STEAM_API_KEY"]
 
 def get_title_for_box(steam_reference, username):
     steamid_regex = re.compile(r"STEAM_[0-1]:[0-1]:\d+")
@@ -28,10 +31,10 @@ def get_real_date(ts):
     return datetime.utcfromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
 
 def get_profile_by_int64(int64):
-    return json.loads(requests.get(x("aHR0cDovL2FwaS5zdGVhbXBvd2VyZWQuY29tL0lTdGVhbVVzZXIvR2V0UGxheWVyU3VtbWFyaWVzL3YwMDAyLz9rZXk9OUU1QTNEQTJCRDVEQkVEMEQzNDNDNkExQ0JBMDlDRUImZm9ybWF0PWpzb24=").decode("utf-8") + "&steamids=" + str(int64)).text)["response"]["players"][0]
+    return json.loads(requests.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={}&format=json".format(KEY) + "&steamids=" + str(int64)).text)["response"]["players"][0]
 
 def get_bans_by_int64(int64):
-    return json.loads(requests.get(x("aHR0cDovL2FwaS5zdGVhbXBvd2VyZWQuY29tL0lTdGVhbVVzZXIvR2V0UGxheWVyQmFucy92MS8/a2V5PTlFNUEzREEyQkQ1REJFRDBEMzQzQzZBMUNCQTA5Q0VCJmZvcm1hdD1qc29u").decode("utf-8") + "&steamids=" + str(int64)).text)["players"][0]
+    return json.loads(requests.get("http://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key={}&format=json".format(KEY) + "&steamids=" + str(int64)).text)["players"][0]
 
 def get_profile_by_steamio(inp):
     url = "https://steamid.io/lookup/" + str(inp)
@@ -168,6 +171,7 @@ class steam:
                 vac_embed = Embed()
 
                 if bans["VACBanned"] or bans["NumberOfGameBans"]:
+                    days_since_last = bans["DaysSinceLastBan"]
                     amount_of_vac = bans["NumberOfVACBans"]
                     amount_of_game = bans["NumberOfGameBans"]
                     vac_word = "ban" if amount_of_vac == 1 else "bans"
@@ -185,7 +189,7 @@ class steam:
                     
                     vac_embed.add_field(name="VAC bans", value=str(amount_of_vac), inline=True)
                     vac_embed.add_field(name="Game bans", value=str(amount_of_game), inline=True)
-                    vac_embed.add_field(name="Days since last ban", value=str(bans["DaysSinceLastBan"]), inline=False)
+                    vac_embed.add_field(name="Days since last ban", value=str(days_since_last), inline=False)
 
                     await ctx.bot.send_message(ctx.message.channel, embed=vac_embed)
 
