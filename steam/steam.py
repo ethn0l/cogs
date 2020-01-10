@@ -206,7 +206,7 @@ class steam:
         
         await self.bot.delete_message(ctx.message) # delete message when done
     
-    # !report implemented as -report
+    # !report implemented as [p]report
     @commands.command(pass_context=True)
     async def report(self, ctx):
         embed=Embed(title="**THIS CHANNEL IS FOR EVIDENCE ONLY**", description="- Post the EVIDENCE\n - Post their steam profile link\n  - Mention what server they are on\n - And let us know what they are doing (cheating, trolling, griefing, etc)", color=0xe06100)
@@ -214,7 +214,7 @@ class steam:
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
 
-    # !rules implemented as -rules
+    # !rules implemented as [p]rules
     @commands.command(pass_context=True)
     async def rules(self, ctx):
         embed = Embed(title="**RULES**", color=0xffffff)
@@ -229,7 +229,44 @@ class steam:
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
     
-    # !appeal implemented as -appeal
+    # !rank implemented as [p]rank
+    @commands.command(pass_context=True)
+    async def rank(self, ctx):
+        embed = Embed(title="**https://baited.xyz/rankme**", url="https://baited.xyz/rankme", description="or https://baited.xyz/rankmena for na rankings.", color=0xffffff)
+        embed.add_field(name="Silver 1 ", value="150 Points", inline=True)
+        embed.add_field(name="Gold Nova 1", value="1150 Points", inline=True)
+        embed.add_field(name="Master Guardian Elite", value="3150 Points", inline=True)
+        embed.add_field(name="Silver 2", value="250 Points", inline=True)
+        embed.add_field(name="Gold Nova 2", value="1350 Points", inline=True)
+        embed.add_field(name="Distinguished Master Guardian", value="3750 Points", inline=True)
+        embed.add_field(name="Silver 3", value="450 Points", inline=True)
+        embed.add_field(name="Gold Nova 3", value="1550 Points", inline=True)
+        embed.add_field(name="Legendary Eagle", value="4500 Points", inline=True)
+        embed.add_field(name="Silver 4", value="650 Points", inline=True)
+        embed.add_field(name="Gold Nova Master", value="1750 Points", inline=True)
+        embed.add_field(name="Legendary Eagle Master ", value="6000 Points", inline=True)
+        embed.add_field(name="Silver Elite", value="800 Points", inline=True)
+        embed.add_field(name="Master Guardian 1", value="2250 Points", inline=True)
+        embed.add_field(name="Supreme Master First Class", value="10000 Points", inline=True)
+        embed.add_field(name="Silver Elite Master", value="950 Points", inline=True)
+        embed.add_field(name="Master Guardian 2", value="2750 Points", inline=True)
+        embed.add_field(name="The Global Elite", value="17500 Points", inline=True)
+        await self.bot.say(embed=embed)
+
+    # !admin and !apply implemented as [p]apply
+    @commands.command(pass_context=True)
+    async def apply(self, ctx):
+        embed=Embed(title="https://www.baited.xyz/dashboard/dash.php?apply", url="https://www.baited.xyz/dashboard/dash.php?apply", color=0xffffff)
+        embed.set_author(name="Apply for admin here!")
+        await self.bot.say(embed=embed)
+
+    # !activity implemnted as [p]activity
+    @commands.command(pass_context=True)
+    async def activity(self, ctx):
+        embed=Embed(title="**https://baited.xyz/activity/**", url="https://baited.xyz/activity/", color=0xffffff)
+        await self.bot.say(embed=embed)
+
+    # !appeal implemented as [p]appeal
     @commands.command(pass_context=True)
     async def appeal(self, ctx):
         embed=Embed(title="**How to appeal your ban?**", description="- Post your steam profile link\n- Wait for an admin to reply\n- Do NOT tag admins or owners", color=0xffffff)
