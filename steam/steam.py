@@ -217,7 +217,7 @@ class steam:
     # !rules implemented as [p]rules
     @commands.command(pass_context=True)
     async def rules(self, ctx):
-        embed = Embed(title="**RULES**", color=0xffffff)
+        embed = Embed(title="**RULES**", color=0xfffff0)
         embed.add_field(name="Rule 1", value="Speak only English via voice or text chat to maintain clear channels of communication.", inline=False)
         embed.add_field(name="Rule 2 ", value="Do not Grief, Cheat, Script or Exploit. If found to be in breach of this rule, bans received will be **permanent** and **unappealable**.", inline=False)
         embed.add_field(name="Rule 3 ", value="Do not impersonate any Players or Baited Staff.", inline=False)
@@ -232,7 +232,7 @@ class steam:
     # !rank implemented as [p]rank
     @commands.command(pass_context=True)
     async def rank(self, ctx):
-        embed = Embed(title="**https://baited.xyz/rankme**", url="https://baited.xyz/rankme", description="or https://baited.xyz/rankmena for na rankings.", color=0xffffff)
+        embed = Embed(title="**https://baited.xyz/rankme**", url="https://baited.xyz/rankme", description="or https://baited.xyz/rankmena for na rankings.", color=0xfffff0)
         embed.add_field(name="Silver 1 ", value="150 Points", inline=True)
         embed.add_field(name="Gold Nova 1", value="1150 Points", inline=True)
         embed.add_field(name="Master Guardian Elite", value="3150 Points", inline=True)
@@ -256,7 +256,7 @@ class steam:
     # !admin and !apply implemented as [p]apply
     @commands.command(pass_context=True)
     async def apply(self, ctx):
-        embed=Embed(title="https://www.baited.xyz/dashboard/dash.php?apply", url="https://www.baited.xyz/dashboard/dash.php?apply", color=0xffffff)
+        embed=Embed(title="https://www.baited.xyz/dashboard/dash.php?apply", url="https://www.baited.xyz/dashboard/dash.php?apply", color=0xfffff0)
         embed.set_author(name="Apply for admin here!")
         await self.bot.say(embed=embed)
 
@@ -269,7 +269,7 @@ class steam:
     # !appeal implemented as [p]appeal
     @commands.command(pass_context=True)
     async def appeal(self, ctx):
-        embed=Embed(title="**How to appeal your ban?**", description="- Post your steam profile link\n- Wait for an admin to reply\n- Do NOT tag admins or owners", color=0xffffff)
+        embed=Embed(title="**How to appeal your ban?**", description="- Post your steam profile link\n- Wait for an admin to reply\n- Do NOT tag admins or owners", color=0xfffff0)
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
 
