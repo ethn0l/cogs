@@ -228,6 +228,13 @@ class steam:
         embed.add_field(name="Rule 8", value="Do not disrupt the Server in any way. Acts of disruption can include, but are not limited to:\n\n - Mic/Chat Spam\n - Trolling\n - Team Flashing \n - Blocking\n - Ghosting\n - Shooting allies to reveal their position", inline=False)
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
+    
+    # !appeal implemented as -appeal
+    @commands.command(pass_context=True)
+    async def appeal(self, ctx):
+        embed=Embed(title="**How to appeal your ban?**", description="- Post your steam profile link\n- Wait for an admin to reply\n- Do NOT tag admins or owners", color=0xffffff)
+        await self.bot.say(embed=embed)
+        await self.bot.delete_message(ctx.message)
 
 def setup(bot):
     bot.add_cog(steam(bot))  
