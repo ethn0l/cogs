@@ -252,6 +252,7 @@ class steam:
         embed.add_field(name="Master Guardian 2", value="2750 Points", inline=True)
         embed.add_field(name="The Global Elite", value="17500 Points", inline=True)
         await self.bot.say(embed=embed)
+        await self.bot.delete_message(ctx.message)
 
     # !admin and !apply implemented as [p]apply
     @commands.command(pass_context=True)
@@ -259,12 +260,14 @@ class steam:
         embed=Embed(title="https://www.baited.xyz/dashboard/dash.php?apply", url="https://www.baited.xyz/dashboard/dash.php?apply", color=0xfffff0)
         embed.set_author(name="Apply for admin here!")
         await self.bot.say(embed=embed)
+        await self.bot.delete_message(ctx.message)
 
     # !activity implemnted as [p]activity
     @commands.command(pass_context=True)
     async def activity(self, ctx):
         embed=Embed(title="**https://baited.xyz/activity/**", url="https://baited.xyz/activity/", color=0xff0000)
         await self.bot.say(embed=embed)
+        await self.bot.delete_message(ctx.message)
 
     # !appeal implemented as [p]appeal
     @commands.command(pass_context=True)
