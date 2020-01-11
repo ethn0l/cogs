@@ -14,7 +14,7 @@ BAITED_SERVERS = {
     "meta":{
         "eu":":flag_eu: #{} Baited 5v5 Competitive !knife !ws !gloves ",
         "na":":flag_us: #{} Baited 5v5 Competitive !knife !ws !gloves ",
-        "ip":"[{}](steam://connect/{})"
+        "ip":"steam://connect/{}"
     },
     "eu":[
         "145.239.254.11:27015",
@@ -325,10 +325,10 @@ class steam:
         embed = Embed(title="Connection Info", color=0xfffff0)
 
         for i, eu_ip in enumerate(BAITED_SERVERS["eu"]):
-            embed.add_field(name=BAITED_SERVERS["meta"]["eu"].format(str(i+1)), value=BAITED_SERVERS["meta"]["ip"].format(eu_ip, eu_ip), inline=True)
+            embed.add_field(name=BAITED_SERVERS["meta"]["eu"].format(str(i+1)), value=BAITED_SERVERS["meta"]["ip"].format(eu_ip), inline=True)
 
         for i, na_ip in enumerate(BAITED_SERVERS["na"]):
-            embed.add_field(name=BAITED_SERVERS["meta"]["na"].format(str(i+1)), value=BAITED_SERVERS["meta"]["ip"].format(na_ip, na_ip), inline=True)
+            embed.add_field(name=BAITED_SERVERS["meta"]["na"].format(str(i+1)), value=BAITED_SERVERS["meta"]["ip"].format(na_ip), inline=True)
         
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
