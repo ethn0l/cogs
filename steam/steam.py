@@ -265,7 +265,7 @@ class steam:
     # !activity implemnted as [p]activity
     @commands.command(pass_context=True)
     async def activity(self, ctx):
-        embed=Embed(title="**https://baited.xyz/activity/**", url="https://baited.xyz/activity/", color=0xff0000)
+        embed=Embed(title="**https://baited.xyz/activity/**", url="https://baited.xyz/activity/", color=0x0000ff)
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
 
