@@ -12,9 +12,9 @@ KEY = "2CD774287543683380F3E200E819F8D4"
 
 BAITED_SERVERS = {
     "meta":{
-        "eu":"#{} Baited 5v5 Competitive !knife !ws !gloves :flag_eu:",
-        "na":"#{} Baited 5v5 Competitive !knife !ws !gloves :flag_us:",
-        "pre":"steam://connect/"
+        "eu":":flag_eu: #{} Baited 5v5 Competitive !knife !ws !gloves ",
+        "na":":flag_us: #{} Baited 5v5 Competitive !knife !ws !gloves ",
+        "ip":"steam://connect/{}"
     },
     "eu":[
         "145.239.254.11:27015",
@@ -324,14 +324,10 @@ class steam:
         embed = Embed()
 
         for i, eu_ip in enumerate(BAITED_SERVERS["eu"]):
-            server_string = BAITED_SERVERS["meta"]["eu"].format(str(i+1))
-            connection_string = BAITED_SERVERS["meta"]["pre"] + eu_ip
-            embed.add_field(name=server_string, value="\n(" + connection_string + ")", inline=True)
+            embed.add_field(name=BAITED_SERVERS["meta"]["eu"].format(str(i+1)), value=BAITED_SERVERS["meta"]["ip"].format(eu_ip), inline=True)
 
         for i, na_ip in enumerate(BAITED_SERVERS["na"]):
-            server_string = BAITED_SERVERS["meta"]["na"].format(str(i+1))
-            connection_string = BAITED_SERVERS["meta"]["pre"] + na_ip
-            embed.add_field(name=server_string, value="\n(" + connection_string + ")", inline=True)
+            embed.add_field(name=BAITED_SERVERS["meta"]["na"].format(str(i+1)), value=BAITED_SERVERS["meta"]["ip"].format(na_ip), inline=True)
         
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
