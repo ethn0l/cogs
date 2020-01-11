@@ -3,14 +3,11 @@
         "Javad Shafique (4ppl3#0018)"
     ],
     "description":"Function that takes a valid steamio.io input (basicly any type of steam id or custom url) and returns all avalible information.",
-    "install_msg":"Aaron ya lazy fucker. Aaron ya lazy fucker. Aaron ya lazy fucker. Aaron ya lazy fucker. Aaron ya lazy fucker. Aaron ya lazy fucker. Aaron ya lazy fucker. Aaron ya lazy fucker.",
-    "short":"",
+    "install_msg":"Aaron ya lazy fucker. Aaron ya lazy fucker. Aaron ya lazy fucker. Aaron ya lazy fucker. Aaron ya lazy fucker.",
     "min_bot_version":"0.16.2",
     "min_python_version":[3, 0, 0],
     "hidden":false,
     "disabled":false,
-    "required_cogs":[],
     "requirements":["requests", "bs4"],
-    "tags":[],
     "type":"COG"
 }

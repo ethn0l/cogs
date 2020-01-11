@@ -1,0 +1,10 @@
+{
+    "author":[
+        "Javad Shafique (4ppl3#0018)"
+    ],
+    "description":"Commands for baited.xyz discord servers",
+    "install_msg":"MEE6 MEGA GAY. MEE6 MEGA GAY. MEE6 MEGA GAY. MEE6 MEGA GAY. MEE6 MEGA GAY. MEE6 MEGA GAY.",
+    "min_bot_version":"0.16.2",
+    "min_python_version":[3, 0, 0],
+    "type":"COG"
+}
