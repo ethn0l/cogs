@@ -10,4 +10,17 @@ The steam id provided has already had the 0:x changed to 1:x so you can just c/p
 
 [Demo](https://streamable.com/9tv3f)
 
-Also has commands for !rules (-rules) and for !report (-rules).
+Also has commands for everything MEE6 used to do.
+
+Commands:
+
+    activity   (returns link to baited.xyz/activity) 
+    appeal     (gives intructions on how to appeal a ban)
+    apply      (links baited admin application)
+    connect    (All servers with clickable join links)
+    group      (Returns baiteds steam group)
+    rank       (Rank -> Points table)
+    report     (Instructions on how to report a player)
+    rules      (Baited server rules)
+    steam      Please enter a steamID, steamID3, steamID64, customURL or compl... [Search Term *not required] (Returns table with steam information)
+    store      (Returns link to baited.xyz to help players find out where to buy vip) 
