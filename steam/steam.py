@@ -9,6 +9,41 @@ from bs4 import BeautifulSoup
 
 KEY = "2CD774287543683380F3E200E819F8D4"
 
+
+BAITED_SERVERS = {
+    "meta":{
+        "eu":":flag_eu: #{} Baited 5v5 Competitive !knife !ws !gloves [EU/UK]",
+        "na":":flag_us: #{} Baited 5v5 Competitive !knife !ws !gloves [CH/NY]",
+        "pre":"steam://connect/"
+    },
+    "eu":[
+        "145.239.254.11:27015",
+        "145.239.254.11:27025",
+        "145.239.254.11:27035",
+        "145.239.254.11:27045",
+        "145.239.254.11:27055",
+        "145.239.254.11:27065",
+        "145.239.254.11:27075",
+        "145.239.254.11:27085",
+        "145.239.254.11:27095",
+        "145.239.254.11:27105",
+        "145.239.254.11:27115",
+        "145.239.254.11:27125",
+        "145.239.254.11:27135",
+        "145.239.254.11:27145",
+        "145.239.254.11:27155",
+        "145.239.254.11:27165",
+        "145.239.254.11:27175",
+        "145.239.254.11:27185",
+        "145.239.254.11:27195",
+        "145.239.254.11:27205"
+    ],
+    "na":[
+        "74.91.119.107:27015",
+        "69.4.90.243:27075"
+    ]
+}
+
 def get_title_for_box(steam_reference, username):
     steamid_regex = re.compile(r"STEAM_[0-1]:[0-1]:\d+")
     steamid3_regex = re.compile(r"U:[0-9]:\d{1,20}")
@@ -283,6 +318,23 @@ class steam:
         embed.set_thumbnail(url="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b0/b0b14a6aa94c4089a5eca3dc7c492522bb3edc61_full.jpg")
         await self.bot.say("http://steamcommunity.com/groups/BaitedCommunity", embed=embed)
 
+    # !servers implemented as [p]servers
+    @commands.command(pass_context=True)
+    async def servers(self, ctx):
+        all_embeds = []
+
+        for i, eu_ip in enumerate(BAITED_SERVERS["eu"]):
+            server_string = BAITED_SERVERS["meta"]["eu"].format(str(i+1))
+            connection_string = BAITED_SERVERS["meta"]["pre"] + eu_ip
+            all_embeds.append(Embed(title=server_string + "\n(" + connection_string + ")" ))
+
+        for i, na_ip in enumerate(BAITED_SERVERS["na"]):
+            server_string = BAITED_SERVERS["meta"]["na"].format(str(i+1))
+            connection_string = BAITED_SERVERS["meta"]["pre"] + na_ip
+            all_embeds.append(Embed(title=server_string + "\n(" + connection_string + ")" ))
+        
+        for embed in all_embeds:
+            self.bot.say(embed)
 
 def setup(bot):
     bot.add_cog(steam(bot))  
