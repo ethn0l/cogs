@@ -326,6 +326,8 @@ class steam:
         for i, eu_ip in enumerate(BAITED_SERVERS["eu"]):
             embed.add_field(name=BAITED_SERVERS["meta"]["eu"].format(str(i+1)), value=BAITED_SERVERS["meta"]["ip"].format(eu_ip), inline=True)
 
+        embed.add_field(name="", value="", inline=False)
+
         for i, na_ip in enumerate(BAITED_SERVERS["na"]):
             embed.add_field(name=BAITED_SERVERS["meta"]["na"].format(str(i+1)), value=BAITED_SERVERS["meta"]["ip"].format(na_ip), inline=True)
         
