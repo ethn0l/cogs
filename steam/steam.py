@@ -320,7 +320,7 @@ class steam:
 
     # !servers implemented as [p]servers
     @commands.command(pass_context=True)
-    async def servers(self, ctx):
+    async def connect(self, ctx):
         all_embeds = []
 
         for i, eu_ip in enumerate(BAITED_SERVERS["eu"]):
