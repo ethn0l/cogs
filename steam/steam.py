@@ -321,7 +321,7 @@ class steam:
     # !servers implemented as [p]connect
     @commands.command(pass_context=True)
     async def connect(self, ctx):
-        embed = Embed(title="Connection Info", color=0xffffff)
+        embed = Embed(title="Connection Info", color=0xfffff0)
 
         for i, eu_ip in enumerate(BAITED_SERVERS["eu"]):
             embed.add_field(name=BAITED_SERVERS["meta"]["eu"].format(str(i+1)), value=BAITED_SERVERS["meta"]["ip"].format(eu_ip), inline=True)
@@ -331,6 +331,13 @@ class steam:
         
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
+
+    # !vip implemted as [p]store
+    @commands.command(pass_context=True)
+    async def store(self, ctx):
+        embed = Embed(title="https://baited.xyz/", url="https://baited.xyz/", color=0x0000ff)
+        embed.set_author(name="Buy VIP now on")
+        await self.bot.say(embed=embed)
 
 def setup(bot):
     bot.add_cog(steam(bot))  
