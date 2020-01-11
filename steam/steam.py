@@ -333,7 +333,7 @@ class steam:
             connection_string = BAITED_SERVERS["meta"]["pre"] + na_ip
             embed.add_field(name=server_string, value="\n(" + connection_string + ")", inline=True)
         
-        await self.bot.send(embed=embed)
+        await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
 
 def setup(bot):
