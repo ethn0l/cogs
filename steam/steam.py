@@ -12,8 +12,8 @@ KEY = "2CD774287543683380F3E200E819F8D4"
 
 BAITED_SERVERS = {
     "meta":{
-        "eu":":flag_eu: #{} Baited 5v5 Competitive !knife !ws !gloves [EU/UK]",
-        "na":":flag_us: #{} Baited 5v5 Competitive !knife !ws !gloves [CH/NY]",
+        "eu":"#{} Baited 5v5 Competitive !knife !ws !gloves :flag_eu:",
+        "na":"#{} Baited 5v5 Competitive !knife !ws !gloves :flag_us:",
         "pre":"steam://connect/"
     },
     "eu":[
