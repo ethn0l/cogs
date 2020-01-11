@@ -321,7 +321,7 @@ class steam:
     # !servers implemented as [p]connect
     @commands.command(pass_context=True)
     async def connect(self, ctx):
-        embed = Embed()
+        embed = Embed(title="Connection Info", color=0xffffff)
 
         for i, eu_ip in enumerate(BAITED_SERVERS["eu"]):
             embed.add_field(name=BAITED_SERVERS["meta"]["eu"].format(str(i+1)), value=BAITED_SERVERS["meta"]["ip"].format(eu_ip), inline=True)
