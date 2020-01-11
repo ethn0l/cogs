@@ -339,6 +339,7 @@ class steam:
         embed = Embed(title="https://baited.xyz/", url="https://baited.xyz/", color=0x00e1ff)
         embed.set_author(name="Buy VIP now on")
         await self.bot.say(embed=embed)
+        await self.bot.delete_message(ctx.message)
 
 def setup(bot):
     bot.add_cog(steam(bot))  
