@@ -318,7 +318,7 @@ class steam:
         embed.set_thumbnail(url="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b0/b0b14a6aa94c4089a5eca3dc7c492522bb3edc61_full.jpg")
         await self.bot.say("http://steamcommunity.com/groups/BaitedCommunity", embed=embed)
 
-    # !servers implemented as [p]servers
+    # !servers implemented as [p]connect
     @commands.command(pass_context=True)
     async def connect(self, ctx):
         all_embeds = []
@@ -334,7 +334,7 @@ class steam:
             all_embeds.append(Embed(title=server_string + "\n(" + connection_string + ")" ))
         
         for embed in all_embeds:
-            self.bot.say(embed)
+            self.bot.say(embed=embed)
 
 def setup(bot):
     bot.add_cog(steam(bot))  
