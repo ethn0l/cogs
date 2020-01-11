@@ -340,6 +340,14 @@ class steam:
         embed.set_author(name="Buy VIP now on")
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
+    
+    # Command on insolence requests sharing a gif on how to unprivate. [p]unprivate
+    @commands.command(pass_context=True)
+    async def unprivate(self, ctx):
+        embed = Embed(name="Unprivating game details", color=0x00e1ff)
+        embed.set_image(url="https://s.put.re/ZYs3eYf4.gif")
+        await self.bot.say(embed=embed)
+        await self.bot.delete_message(ctx.message)
 
 def setup(bot):
     bot.add_cog(steam(bot))  
