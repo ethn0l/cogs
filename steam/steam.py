@@ -321,21 +321,19 @@ class steam:
     # !servers implemented as [p]connect
     @commands.command(pass_context=True)
     async def connect(self, ctx):
-        all_embeds = []
+        embed = Embed()
 
         for i, eu_ip in enumerate(BAITED_SERVERS["eu"]):
             server_string = BAITED_SERVERS["meta"]["eu"].format(str(i+1))
             connection_string = BAITED_SERVERS["meta"]["pre"] + eu_ip
-            all_embeds.append(Embed(title=server_string + "\n(" + connection_string + ")" ))
+            embed.add_field(name=server_string, value="\n(" + connection_string + ")", inline=True)
 
         for i, na_ip in enumerate(BAITED_SERVERS["na"]):
             server_string = BAITED_SERVERS["meta"]["na"].format(str(i+1))
             connection_string = BAITED_SERVERS["meta"]["pre"] + na_ip
-            all_embeds.append(Embed(title=server_string + "\n(" + connection_string + ")" ))
+            embed.add_field(name=server_string, value="\n(" + connection_string + ")", inline=True)
         
-        for embed in all_embeds:
-            await self.bot.say(embed=embed)
-        
+        await self.bot.send(embed=embed)
         await self.bot.delete_message(ctx.message)
 
 def setup(bot):
