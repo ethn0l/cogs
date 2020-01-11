@@ -14,7 +14,7 @@ BAITED_SERVERS = {
     "meta":{
         "eu":":flag_eu: #{} Baited 5v5 Competitive !knife !ws !gloves ",
         "na":":flag_us: #{} Baited 5v5 Competitive !knife !ws !gloves ",
-        "ip":"steam://connect/{}"
+        "ip":"{}"
     },
     "eu":[
         "145.239.254.11:27015",
