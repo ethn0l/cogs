@@ -334,7 +334,9 @@ class steam:
             all_embeds.append(Embed(title=server_string + "\n(" + connection_string + ")" ))
         
         for embed in all_embeds:
-            self.bot.say(embed=embed)
+            await self.bot.say(embed=embed)
+        
+        await self.bot.delete_message(ctx.message)
 
 def setup(bot):
     bot.add_cog(steam(bot))  
