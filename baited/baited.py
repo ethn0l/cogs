@@ -96,15 +96,13 @@ class baited:
         for arg in args:
             if arg.isnumeric() and len(arg) == 1:
                 print(arg)
-                rule_n = int(arg) + 1
+                rule_n = int(arg)
                 break
             else:
-                print("NOT", arg)
                 continue
 
-        if rule_n:
-            print(rule_n)
-            embed.add_field(name=BAITED_RULES[rule_n]["name"], value=BAITED_RULES[rule_n]["value"], inline=False)
+        if rule_n in range(1, 9):
+            embed.add_field(name=BAITED_RULES[rule_n - 1]["name"], value=BAITED_RULES[rule_n - 1]["value"], inline=False)
         else:
             for rule in BAITED_RULES:
                 embed.add_field(name=rule["name"], value=rule["value"], inline=False)
