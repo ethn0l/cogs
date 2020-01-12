@@ -9,6 +9,7 @@ from discord import Embed
 from discord.ext import commands
 
 KEY = "2CD774287543683380F3E200E819F8D4"
+GAME_ID = 730 # Default counter strike
 SM_FORMAT = True # Forcing STEAM_1:X:X instead of STEAM_X:X:X
 
 def get_title_for_box(steam_reference, username):
@@ -81,13 +82,19 @@ def get_profile_by_steamio(inp):
         "avatar":steam_api["avatarfull"]
     }
 
-    csgo = [game for game in get_games_by_int64(values[2])["games"] if game["appid"] == 730] if profilestate else []
+    # Get all games, but get results for a game specificly if the profile is showing games
+    game = [game for game in get_games_by_int64(values[2])["games"] if game["appid"] == GAME_ID] if profilestate else []
 
-    if len(csgo) == 1:
-        ret["csgo_hours"] = str(math.floor(csgo[0]["playtime_forever"] / 60)) + " hours"
+    # If the account has game
+    if len(game) == 1:
+        # Check if the account has any hours in game (showing hours)
+        if game[0]["playtime_forever"] != 0:
+            # If so add the hours to the return table under game hours (convert into hours and floor)
+            ret["game_hours"] = str(math.floor(game[0]["playtime_forever"] / 60)) + " hours"
 
-        if "playtime_2weeks" in csgo[0].keys():
-            ret["last_2_weeks"] = str(math.floor(csgo[0]["playtime_2weeks"] / 60)) + " hours"
+            # If they have played in the last 2 weeks mark it down too.
+            if "playtime_2weeks" in game[0].keys():
+                ret["last_2_weeks"] = str(math.floor(game[0]["playtime_2weeks"] / 60)) + " hours"
 
     return ret
 
