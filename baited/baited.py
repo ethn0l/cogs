@@ -132,7 +132,7 @@ class baited:
 
             if arg in [name["name"].lower() for name in BAITED_RANKS]:
                 rank_x = True
-                rank = [rank for rank in BAITED_RANKS if rank["name"].lower() == arg]
+                rank = [rank for rank in BAITED_RANKS if rank["name"].lower() == arg][0]
                 embed.add_field(name=rank["name"], value=rank["value"], inline=True)
 
         if not rank_x:
