@@ -209,7 +209,7 @@ class baited:
         
         else:
             server_ip = BAITED_SERVERS[server_region][server_number - 1]
-            server_name = BAITED_SERVERS["meta"][server_region].format(server_ip)
+            server_name = BAITED_SERVERS["meta"][server_region].format(str(server_number))
             ip_con = BAITED_SERVERS["meta"]["ip"].format(server_ip)
             embed.title = "{}\n({})".format(server_name, ip_con)
         
