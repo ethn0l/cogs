@@ -163,7 +163,7 @@ class baited:
             for i, field_1 in enumerate(embed_1.fields):
                 field_2 = embed_2.fields[i]
 
-                print(field_1 == field_2)
+                print(len(field_1), len(field_2))
 
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
