@@ -162,7 +162,6 @@ class baited:
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
 
-  
     @commands.command(pass_context=True)
     async def appeal(self, ctx):
         """
@@ -184,7 +183,7 @@ class baited:
     @commands.command(pass_context=True)
     async def connect(self, ctx):
         """
-        !servers implemented as [p]connect
+        !servers implemented as [p]connect. Takes 2 arguments [server number] and [server region] the latter is optional.
         """
         embed = Embed(title="No server selected showing connection info :wave~1:", color=0xfffff0)
 
