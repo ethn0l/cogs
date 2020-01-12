@@ -1,5 +1,6 @@
 from discord import Embed
 from discord.ext import commands
+from difflib import get_close_matches
 
 BAITED_SERVERS = {
     "meta":{
@@ -35,6 +36,38 @@ BAITED_SERVERS = {
     ]
 }
 
+BAITED_RULES = [
+    {"name":"Rule 1", "value":"Speak only English via voice or text chat to maintain clear channels of communication."},
+    {"name":"Rule 2", "value":"Do not Grief, Cheat, Script or Exploit. If found to be in breach of this rule, bans received will be **permanent** and **unappealable**."},
+    {"name":"Rule 3", "value":"Do not Grief, Cheat, Script or Exploit. If found to be in breach of this rule, bans received will be **permanent** and **unappealable**."},
+    {"name":"Rule 4", "value":"Do not impersonate any Players or Baited Staff."},
+    {"name":"Rule 5", "value":"No 'Smurf'/alt accounts on Baited.\n\n **NOTE: In a rising trend on our Servers, Alts/Smurfs are being frequently used to throw, cheat, or evade previous bans, therefore, if caught using an Alt/Smurf account, it will be permanently banned from the Servers. Bans for this do not carry across accounts. Accounts with VAC / Game Bans received over __365 days__ ago are exempt from this rule.**"},
+    {"name":"Rule 6", "value":"Advertisements of any kind are forbidden, Soliciting the sales of services (hacks, boosting, etc.), linking players to external sites (Gambling free skins etc), or the promotion of Servers other than Baited.xyz is strictly prohibited."},
+    {"name":"Rule 7", "value":"Treat other players with respect. Instances of malicious racism, sexism or homophobia are frowned upon and when found to be in breach of this rule, bans will progressively increase with each cumulative offence."},
+    {"name":"Rule 8", "value":"Do not disrupt the Server in any way. Acts of disruption can include, but are not limited to:\n\n - Mic/Chat Spam\n - Trolling\n - Team Flashing \n - Blocking\n - Ghosting\n - Shooting allies to reveal their position"}
+]
+
+BAITED_RANKS = [
+    {"name":"Silver 1", "value":"150 Points", "key":"s1"},
+    {"name":"Gold Nova 1", "value":"1150 Points", "key":"gn1"},
+    {"name":"Master Guardian Elite", "value":"3150 Points", "key":"mge"},
+    {"name":"Silver 2", "value":"250 Points", "key":"s2"},
+    {"name":"Gold Nova 2", "value":"1350 Points", "key":"gn2"},
+    {"name":"Distinguished Master Guardian", "value":"", "key":"dmg"},
+    {"name":"Silver 3", "value":"450 Points", "key":"s3"},
+    {"name":"Gold Nova 3", "value":"1550 Points", "key":"gn3"},
+    {"name":"Legendary Eagle", "value":"4500 Points", "key":"le"},
+    {"name":"Silver 4", "value":"650 Points", "key":"s4"},
+    {"name":"Gold Nova Master", "value":"1750 Points", "key":"gnm"},
+    {"name":"Legendary Eagle Master", "value":"6000 Points", "key":"lem"},
+    {"name":"Silver Elite", "value":"800 Points", "key":"se"},
+    {"name":"Master Guardian 1", "value":"2250 Points", "key":"mg1"},
+    {"name":"Supreme Master First Class", "value":"10000 Points", "key":"smfc"},
+    {"name":"Silver Elite Master", "value":"950 Points", "key":"sem"},
+    {"name":"Master Guardian 2", "value":"2750 Points", "key":"mg2"},
+    {"name":"The Global Elite", "value":"17500 Points", "key":"ge"}
+] 
+
 class baited:
     def __init__(self, bot: commands.Bot):
         self.bot = bot
@@ -52,17 +85,26 @@ class baited:
     @commands.command(pass_context=True)
     async def rules(self, ctx):
         """
-        !rules implemented as [p]rules
+        !rules implemented as [p]rules. Takes [Rule Number] as an argument.
         """
         embed = Embed(title="**RULES**", color=0xfffff0)
-        embed.add_field(name="Rule 1", value="Speak only English via voice or text chat to maintain clear channels of communication.", inline=False)
-        embed.add_field(name="Rule 2 ", value="Do not Grief, Cheat, Script or Exploit. If found to be in breach of this rule, bans received will be **permanent** and **unappealable**.", inline=False)
-        embed.add_field(name="Rule 3 ", value="Do not impersonate any Players or Baited Staff.", inline=False)
-        embed.add_field(name="Rule 4", value="No 'Smurf'/alt accounts on Baited.\n\n **NOTE: In a rising trend on our Servers, Alts/Smurfs are being frequently used to throw, cheat, or evade previous bans, therefore, if caught using an Alt/Smurf account, it will be permanently banned from the Servers. Bans for this do not carry across accounts. Accounts with VAC / Game Bans received over __365 days__ ago are exempt from this rule.**", inline=False)
-        embed.add_field(name="Rule 5", value="Do not abuse !calladmin. This feature is pivotal for Moderating the Servers, abuse of this system will be dealt with promptly and bans will not be overturned.", inline=False)
-        embed.add_field(name="Rule 6", value="Advertisements of any kind are forbidden, Soliciting the sales of services (hacks, boosting, etc.), linking players to external sites (Gambling free skins etc), or the promotion of Servers other than Baited.xyz is strictly prohibited.", inline=False)
-        embed.add_field(name="Rule 7", value="Treat other players with respect. Instances of malicious racism, sexism or homophobia are frowned upon and when found to be in breach of this rule, bans will progressively increase with each cumulative offence.", inline=False)
-        embed.add_field(name="Rule 8", value="Do not disrupt the Server in any way. Acts of disruption can include, but are not limited to:\n\n - Mic/Chat Spam\n - Trolling\n - Team Flashing \n - Blocking\n - Ghosting\n - Shooting allies to reveal their position", inline=False)
+
+        # Check if a specific rule was been chosen
+        args = ctx.message.content.split(" ")
+        rule_n = 0
+
+        for arg in args:
+            if arg.isnumeric() and len(arg) == 1:
+                rule_n = int(arg) + 1
+                break
+            else:
+                continue
+        if rule_n:
+            embed.add_field(name=BAITED_RULES[rule_n]["name"], value=BAITED_RULES[rule_n]["value"], inline=False)
+        else:
+            for rule in BAITED_RULES:
+                embed.add_field(name=rule["name"], value=rule["value"], inline=False)
+
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
     
@@ -72,24 +114,30 @@ class baited:
         !rank implemented as [p]rank
         """
         embed = Embed(title="**https://baited.xyz/rankme**", url="https://baited.xyz/rankme", description="or https://baited.xyz/rankmena for na rankings.", color=0xfffff0)
-        embed.add_field(name="Silver 1 ", value="150 Points", inline=True)
-        embed.add_field(name="Gold Nova 1", value="1150 Points", inline=True)
-        embed.add_field(name="Master Guardian Elite", value="3150 Points", inline=True)
-        embed.add_field(name="Silver 2", value="250 Points", inline=True)
-        embed.add_field(name="Gold Nova 2", value="1350 Points", inline=True)
-        embed.add_field(name="Distinguished Master Guardian", value="3750 Points", inline=True)
-        embed.add_field(name="Silver 3", value="450 Points", inline=True)
-        embed.add_field(name="Gold Nova 3", value="1550 Points", inline=True)
-        embed.add_field(name="Legendary Eagle", value="4500 Points", inline=True)
-        embed.add_field(name="Silver 4", value="650 Points", inline=True)
-        embed.add_field(name="Gold Nova Master", value="1750 Points", inline=True)
-        embed.add_field(name="Legendary Eagle Master ", value="6000 Points", inline=True)
-        embed.add_field(name="Silver Elite", value="800 Points", inline=True)
-        embed.add_field(name="Master Guardian 1", value="2250 Points", inline=True)
-        embed.add_field(name="Supreme Master First Class", value="10000 Points", inline=True)
-        embed.add_field(name="Silver Elite Master", value="950 Points", inline=True)
-        embed.add_field(name="Master Guardian 2", value="2750 Points", inline=True)
-        embed.add_field(name="The Global Elite", value="17500 Points", inline=True)
+        
+        # Check if a specific rank was been chosen
+        args = ctx.message.content.split(" ")
+        rank_x = False
+
+        for arg in args:
+            if arg in [x["key"] for x in BAITED_RANKS]:
+                rank_x = True
+                rank = [rank for rank in BAITED_RANKS if rank["key"] == arg]
+                embed.add_field(name=rank["name"], value=rank["value"], inline=True)
+        
+        if len(args) >= 2 and not rank_x:
+            arg = " ".join(args[:-1])
+            closest_match = get_close_matches(arg.lower(), [name["name"].lower() for name in BAITED_RANKS])
+
+            if len(closest_match) > 0:
+                rank_x = True
+                rank = [rank for rank in BAITED_RANKS if rank["name"].lower() == closest_match[0]]
+                embed.add_field(name=rank["name"], value=rank["value"], inline=True)
+
+        if not rank_x:
+            for rank in BAITED_RANKS:
+                embed.add_field(name=rank["name"], value=rank["value"], inline=True)
+
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
 
