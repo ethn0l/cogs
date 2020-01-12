@@ -81,6 +81,7 @@ def get_profile_by_steamio(inp):
         "avatar":steam_api["avatarfull"]
     }
 
+    print(profilestate)
     csgo = [game for game in get_games_by_int64(values[2])["games"] if game["appid"] == 730] if profilestate else []
 
     if len(csgo) == 1:
