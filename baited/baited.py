@@ -119,6 +119,7 @@ class baited:
         args = ctx.message.content.split(" ")
         rank_x = False
 
+        '''
         for arg in args:
             if arg in [x["key"] for x in BAITED_RANKS]:
                 rank_x = True
@@ -133,12 +134,10 @@ class baited:
                 rank_x = True
                 rank = [rank for rank in BAITED_RANKS if rank["name"].lower() == closest_match[0]][0]
                 embed.add_field(name=rank["name"], value=rank["value"], inline=True)
-
+        '''
         if not rank_x:
             for rank in BAITED_RANKS:
                 embed.add_field(name=rank["name"], value=rank["value"], inline=True)
-
-        print(len(embed.fields))
 
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
