@@ -138,6 +138,7 @@ class baited:
             for rank in BAITED_RANKS:
                 embed.add_field(name=rank["name"], value=rank["value"], inline=True)
 
+        print(embed.fields)
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
 
