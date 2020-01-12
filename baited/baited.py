@@ -160,7 +160,7 @@ class baited:
             for rank in BAITED_RANKS:
                 embed_2.add_field(name=rank["name"], value=rank["value"], inline=True)
             
-            print(embed_1 == embed_2)
+            print(embed_1.fields == embed_2.fields)
 
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
