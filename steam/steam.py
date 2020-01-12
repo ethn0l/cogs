@@ -30,7 +30,7 @@ def get_profile_by_int64(int64):
     return json.loads(requests.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={}&format=json".format(KEY) + "&steamids=" + str(int64)).text)["response"]["players"][0]
 
 def get_games_by_int64(int64):
-    return json.loads(requests.get("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={}&steamid={}&format=json".format(KEY, int64).text)["response"])
+    return json.loads(requests.get("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={}&steamid={}&format=json".format(KEY, int64)).text)["response"]
 
 def get_bans_by_int64(int64):
     return json.loads(requests.get("http://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key={}&format=json".format(KEY) + "&steamids=" + str(int64)).text)["players"][0]
