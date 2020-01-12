@@ -113,7 +113,7 @@ class baited:
     @commands.command(pass_context=True)
     async def rank(self, ctx):
         """
-        !rank implemented as [p]rank
+        !rank implemented as [p]rank. Takes argument [rank key]/[rank name] to get one rank returned.
         """
         embed = Embed(title="**https://baited.xyz/rankme**", url="https://baited.xyz/rankme", description="or https://baited.xyz/rankmena for na rankings.", color=0xfffff0)
         
@@ -172,7 +172,6 @@ class baited:
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
 
-   
     @commands.command(pass_context=True)
     async def group(self, ctx):
         """
@@ -181,7 +180,6 @@ class baited:
         embed = Embed(title="Steam Community :: Group :: Baited Community", url="http://steamcommunity.com/groups/BaitedCommunity", description="Welcome to Baited Community, the most popular 5v5 community servers in the UK. We boast 1 Gbps Networking on all of our servers and our website guaranteeing a flawless CS:GO experience, we are even branching into America. In our very active Discord, our active admin team are ...", color=0xfdfaff)
         embed.set_thumbnail(url="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b0/b0b14a6aa94c4089a5eca3dc7c492522bb3edc61_full.jpg")
         await self.bot.say("http://steamcommunity.com/groups/BaitedCommunity", embed=embed)
-
     
     @commands.command(pass_context=True)
     async def connect(self, ctx):
