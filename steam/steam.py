@@ -59,7 +59,7 @@ def get_profile_by_steamio(inp):
     steam_api = get_profile_by_int64(values[2])
     custom_url = steam_api["profileurl"].split("/")[:-1].pop()
     created = get_real_date(steam_api["timecreated"]) if "timecreated" in steam_api.keys() else "None"
-    profilestate = "public" if steam_api["communityvisibilitystate"] - 1 else "private"
+    profilestate = steam_api["communityvisibilitystate"] - 1
     profilename = steam_api["personaname"] if "personaname" in steam_api.keys() else "None"
     lastlogoff = get_real_date(steam_api["lastlogoff"]) if "lastlogoff" in steam_api.keys() else "None"
 
@@ -72,7 +72,7 @@ def get_profile_by_steamio(inp):
         "steamid64":values[2],
         "custom_url":values[3],
         "profile_name":profilename,
-        "profile_state":profilestate,
+        "profile_state": "public" if profile_state else "private",
         "profile_created":created,
         "location":values[7],
         # "status":values[8],
@@ -81,7 +81,6 @@ def get_profile_by_steamio(inp):
         "avatar":steam_api["avatarfull"]
     }
 
-    print(profilestate)
     csgo = [game for game in get_games_by_int64(values[2])["games"] if game["appid"] == 730] if profilestate else []
 
     if len(csgo) == 1:
