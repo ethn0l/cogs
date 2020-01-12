@@ -65,7 +65,7 @@ BAITED_RANKS = [
     {"name":"Silver Elite Master", "value":"950 Points", "key":"sem"},
     {"name":"Master Guardian 2", "value":"2750 Points", "key":"mg2"},
     {"name":"The Global Elite", "value":"17500 Points", "key":"ge"}
-] 
+]
 
 class baited:
     def __init__(self, bot: commands.Bot):
@@ -128,7 +128,7 @@ class baited:
                 embed.add_field(name=rank["name"], value=rank["value"], inline=True)
         
         if len(args) >= 2 and not rank_x:
-            arg = " ".join(args[:-1]).lower()
+            arg = " ".join(args[1:]).lower()
 
             if arg in [name["name"].lower() for name in BAITED_RANKS]:
                 rank_x = True
