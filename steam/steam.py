@@ -83,7 +83,11 @@ def get_profile_by_steamio(inp):
     }
 
     # Get all games, but get results for a game specificly if the profile is showing games
-    game = [game for game in get_games_by_int64(values[2])["games"] if game["appid"] == GAME_ID] if profilestate else []
+    try:
+        game = [game for game in get_games_by_int64(values[2])["games"] if game["appid"] == GAME_ID] if profilestate else []
+    except KeyError:
+        game = [] # Games are hidden
+
 
     # If the account has game
     if len(game) == 1:
