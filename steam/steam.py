@@ -83,10 +83,10 @@ def get_profile_by_steamio(inp):
     csgo = [game for game in get_games_by_int64(values[2])["games"] if game["appid"] == 730] if profilestate else []
 
     if len(csgo) == 1:
-        ret["csgo_hours"] = str(csgo[0].playtime_forever / 60)
+        ret["csgo_hours"] = str(csgo[0]["playtime_forever"] / 60)
 
         if "playtime_2weeks" in csgo[0].keys():
-            ret["csgo_hours_last_2_weeks"] = str(csgo[0].playtime_2weeks / 60)
+            ret["csgo_hours_last_2_weeks"] = str(csgo[0]["playtime_2weeks"] / 60)
 
     return ret
 
