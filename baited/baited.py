@@ -95,11 +95,15 @@ class baited:
 
         for arg in args:
             if arg.isnumeric() and len(arg) == 1:
+                print(arg)
                 rule_n = int(arg) + 1
                 break
             else:
+                print("NOT", arg)
                 continue
+
         if rule_n:
+            print(rule_n)
             embed.add_field(name=BAITED_RULES[rule_n]["name"], value=BAITED_RULES[rule_n]["value"], inline=False)
         else:
             for rule in BAITED_RULES:
@@ -137,7 +141,6 @@ class baited:
         if not rank_x:
             for rank in BAITED_RANKS:
                 embed.add_field(name=rank["name"], value=rank["value"], inline=True)
-                
 
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
