@@ -29,6 +29,9 @@ def get_real_date(ts):
 def get_profile_by_int64(int64):
     return json.loads(requests.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={}&format=json".format(KEY) + "&steamids=" + str(int64)).text)["response"]["players"][0]
 
+def get_games_by_int64(int64):
+    return json.loads(requests.get("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={}&steamid={}&format=json".format(KEY, int64).text)["response"])
+
 def get_bans_by_int64(int64):
     return json.loads(requests.get("http://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key={}&format=json".format(KEY) + "&steamids=" + str(int64)).text)["players"][0]
 
@@ -62,7 +65,7 @@ def get_profile_by_steamio(inp):
     if not custom_url.isnumeric():
         values[3] = custom_url
 
-    return {
+    ret = {
         "steamid":values[0].replace("0:0:", "1:0:").replace("0:1:", "1:1:") if SM_FORMAT else values[0],
         "steamid3":values[1],
         "steamid64":values[2],
@@ -76,6 +79,16 @@ def get_profile_by_steamio(inp):
         "profile_url":values[9+i],
         "avatar":steam_api["avatarfull"]
     }
+
+    csgo = [game for game in get_games_by_int64(values[2]) if game.appid = 730)["games"]] if profilestate else []
+
+    if len(csgo) == 1:
+        ret["csgo_hours"] = str(csgo[0].playtime_forever / 60)
+
+        if "playtime_2weeks" in csgo[0].keys():
+            ret["csgo_hours_last_2_weeks"] = str(csgo[0].playtime_2weeks / 60)
+
+    return ret
 
 # Classname should be CamelCase and the same spelling as the folder
 class steam:
