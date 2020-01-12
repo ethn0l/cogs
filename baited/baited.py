@@ -188,11 +188,30 @@ class baited:
         """
         embed = Embed(title="Connection Info", color=0xfffff0)
 
-        for i, eu_ip in enumerate(BAITED_SERVERS["eu"]):
-            embed.add_field(name=BAITED_SERVERS["meta"]["eu"].format(str(i+1)), value=BAITED_SERVERS["meta"]["ip"].format(eu_ip), inline=True)
+        args = ctx.message.content.split(" ")[1:]
 
-        for i, na_ip in enumerate(BAITED_SERVERS["na"]):
-            embed.add_field(name=BAITED_SERVERS["meta"]["na"].format(str(i+1)), value=BAITED_SERVERS["meta"]["ip"].format(na_ip), inline=True)
+        valid_numbers_eu = range(1, len(BAITED_SERVERS["eu"]) + 1)
+        valid_numbers_na = range(1, len(BAITED_SERVERS["na"]) + 1)
+        server_number = 0
+        server_region = "na" if "na" in args else "eu"
+
+        for arg in args:
+            if arg.isnumeric():
+                if int(arg) in (valid_numbers_na if server_region == "na" else valid_numbers_eu):
+                    server_number = int(arg)
+
+        if not server_number:
+            for i, eu_ip in enumerate(BAITED_SERVERS["eu"]):
+                embed.add_field(name=BAITED_SERVERS["meta"]["eu"].format(str(i+1)), value=eu_ip, inline=True)
+
+            for i, na_ip in enumerate(BAITED_SERVERS["na"]):
+                embed.add_field(name=BAITED_SERVERS["meta"]["na"].format(str(i+1)), value=na_ip, inline=True)
+        
+        else:
+            server_ip = BAITED_SERVERS[server_region][server_number - 1]
+            server_name = BAITED_SERVERS["meta"][server_region].format(server_ip)
+            ip_con = BAITED_SERVERS["meta"]["ip"].format(server_ip)
+            embed.title = "{}\n({})".format(server_name, ip_con)
         
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
