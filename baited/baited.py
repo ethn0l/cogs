@@ -149,7 +149,7 @@ class baited:
             embed_1.add_field(name="Legendary Eagle", value="4500 Points", inline=True)
             embed_1.add_field(name="Silver 4", value="650 Points", inline=True)
             embed_1.add_field(name="Gold Nova Master", value="1750 Points", inline=True)
-            embed_1.add_field(name="Legendary Eagle Master ", value="6000 Points", inline=True)
+            embed_1.add_field(name="Legendary Eagle Master", value="6000 Points", inline=True)
             embed_1.add_field(name="Silver Elite", value="800 Points", inline=True)
             embed_1.add_field(name="Master Guardian 1", value="2250 Points", inline=True)
             embed_1.add_field(name="Supreme Master First Class", value="10000 Points", inline=True)
