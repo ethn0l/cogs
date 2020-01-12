@@ -1,6 +1,5 @@
 from discord import Embed
 from discord.ext import commands
-from difflib import get_close_matches
 
 BAITED_SERVERS = {
     "meta":{
@@ -103,6 +102,7 @@ class baited:
 
         if rule_n in range(1, 9):
             embed.add_field(name=BAITED_RULES[rule_n - 1]["name"], value=BAITED_RULES[rule_n - 1]["value"], inline=False)
+            embed.title = "**RULE {}**".format(str(rule_n))
         else:
             for rule in BAITED_RULES:
                 embed.add_field(name=rule["name"], value=rule["value"], inline=False)
@@ -128,12 +128,11 @@ class baited:
                 embed.add_field(name=rank["name"], value=rank["value"], inline=True)
         
         if len(args) >= 2 and not rank_x:
-            arg = " ".join(args[:-1])
-            closest_match = get_close_matches(arg.lower(), [name["name"].lower() for name in BAITED_RANKS])
+            arg = " ".join(args[:-1]).lower()
 
-            if len(closest_match) > 0:
+            if arg in [name["name"].lower() for name in BAITED_RANKS]:
                 rank_x = True
-                rank = [rank for rank in BAITED_RANKS if rank["name"].lower() == closest_match[0]][0]
+                rank = [rank for rank in BAITED_RANKS if rank["name"].lower() == arg]
                 embed.add_field(name=rank["name"], value=rank["value"], inline=True)
 
         if not rank_x:
