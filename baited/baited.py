@@ -53,7 +53,7 @@ BAITED_RANKS = [
     {"name":"Master Guardian Elite", "value":"3150 Points", "key":"mge"},
     {"name":"Silver 2", "value":"250 Points", "key":"s2"},
     {"name":"Gold Nova 2", "value":"1350 Points", "key":"gn2"},
-    {"name":"Distinguished Master Guardian", "value":"", "key":"dmg"},
+    {"name":"Distinguished Master Guardian", "value":"3750 Points", "key":"dmg"},
     {"name":"Silver 3", "value":"450 Points", "key":"s3"},
     {"name":"Gold Nova 3", "value":"1550 Points", "key":"gn3"},
     {"name":"Legendary Eagle", "value":"4500 Points", "key":"le"},
@@ -135,36 +135,8 @@ class baited:
                 embed.add_field(name=rank["name"], value=rank["value"], inline=True)
 
         if not rank_x:
-            embed_1 = Embed()
-            embed_2 = Embed()
-
-            embed_1.add_field(name="Silver 1", value="150 Points", inline=True)
-            embed_1.add_field(name="Gold Nova 1", value="1150 Points", inline=True)
-            embed_1.add_field(name="Master Guardian Elite", value="3150 Points", inline=True)
-            embed_1.add_field(name="Silver 2", value="250 Points", inline=True)
-            embed_1.add_field(name="Gold Nova 2", value="1350 Points", inline=True)
-            embed_1.add_field(name="Distinguished Master Guardian", value="3750 Points", inline=True)
-            embed_1.add_field(name="Silver 3", value="450 Points", inline=True)
-            embed_1.add_field(name="Gold Nova 3", value="1550 Points", inline=True)
-            embed_1.add_field(name="Legendary Eagle", value="4500 Points", inline=True)
-            embed_1.add_field(name="Silver 4", value="650 Points", inline=True)
-            embed_1.add_field(name="Gold Nova Master", value="1750 Points", inline=True)
-            embed_1.add_field(name="Legendary Eagle Master", value="6000 Points", inline=True)
-            embed_1.add_field(name="Silver Elite", value="800 Points", inline=True)
-            embed_1.add_field(name="Master Guardian 1", value="2250 Points", inline=True)
-            embed_1.add_field(name="Supreme Master First Class", value="10000 Points", inline=True)
-            embed_1.add_field(name="Silver Elite Master", value="950 Points", inline=True)
-            embed_1.add_field(name="Master Guardian 2", value="2750 Points", inline=True)
-            embed_1.add_field(name="The Global Elite", value="17500 Points", inline=True)
-            
             for rank in BAITED_RANKS:
-                embed_2.add_field(name=rank["name"], value=rank["value"], inline=True)
-            
-            for i, field_1 in enumerate(embed_1.fields):
-                field_2 = embed_2.fields[i]
-
-                print(field_1)
-                print(field_2)
+                embed.add_field(name=rank["name"], value=rank["value"], inline=True)
                 
 
         await self.bot.say(embed=embed)
