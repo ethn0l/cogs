@@ -122,7 +122,7 @@ class baited:
         for arg in args:
             if arg in [x["key"] for x in BAITED_RANKS]:
                 rank_x = True
-                rank = [rank for rank in BAITED_RANKS if rank["key"] == arg]
+                rank = [rank for rank in BAITED_RANKS if rank["key"] == arg][0]
                 embed.add_field(name=rank["name"], value=rank["value"], inline=True)
         
         if len(args) >= 2 and not rank_x:
@@ -131,7 +131,7 @@ class baited:
 
             if len(closest_match) > 0:
                 rank_x = True
-                rank = [rank for rank in BAITED_RANKS if rank["name"].lower() == closest_match[0]]
+                rank = [rank for rank in BAITED_RANKS if rank["name"].lower() == closest_match[0]][0]
                 embed.add_field(name=rank["name"], value=rank["value"], inline=True)
 
         if not rank_x:
