@@ -135,10 +135,25 @@ class baited:
                 embed.add_field(name=rank["name"], value=rank["value"], inline=True)
 
         if not rank_x:
-            for rank in BAITED_RANKS:
-                embed.add_field(name=rank["name"], value=rank["value"], inline=True)
+            embed.add_field(name=BAITED_RANKS[0]["name"], value=BAITED_RANKS[0]["value"], inline=True)
+            embed.add_field(name=BAITED_RANKS[1]["name"], value=BAITED_RANKS[1]["value"], inline=True)
+            embed.add_field(name=BAITED_RANKS[2]["name"], value=BAITED_RANKS[2]["value"], inline=True)
+            embed.add_field(name=BAITED_RANKS[3]["name"], value=BAITED_RANKS[3]["value"], inline=True)
+            embed.add_field(name=BAITED_RANKS[4]["name"], value=BAITED_RANKS[4]["value"], inline=True)
+            embed.add_field(name=BAITED_RANKS[5]["name"], value=BAITED_RANKS[5]["value"], inline=True)
+            embed.add_field(name=BAITED_RANKS[6]["name"], value=BAITED_RANKS[6]["value"], inline=True)
+            embed.add_field(name=BAITED_RANKS[7]["name"], value=BAITED_RANKS[7]["value"], inline=True)
+            embed.add_field(name=BAITED_RANKS[8]["name"], value=BAITED_RANKS[8]["value"], inline=True)
+            embed.add_field(name=BAITED_RANKS[9]["name"], value=BAITED_RANKS[9]["value"], inline=True)
+            embed.add_field(name=BAITED_RANKS[10]["name"], value=BAITED_RANKS[10]["value"], inline=True)
+            embed.add_field(name=BAITED_RANKS[11]["name"], value=BAITED_RANKS[11]["value"], inline=True)
+            embed.add_field(name=BAITED_RANKS[12]["name"], value=BAITED_RANKS[12]["value"], inline=True)
+            embed.add_field(name=BAITED_RANKS[13]["name"], value=BAITED_RANKS[13]["value"], inline=True)
+            embed.add_field(name=BAITED_RANKS[14]["name"], value=BAITED_RANKS[14]["value"], inline=True)
+            embed.add_field(name=BAITED_RANKS[15]["name"], value=BAITED_RANKS[15]["value"], inline=True)
+            embed.add_field(name=BAITED_RANKS[16]["name"], value=BAITED_RANKS[16]["value"], inline=True)
+            embed.add_field(name=BAITED_RANKS[17]["name"], value=BAITED_RANKS[17]["value"], inline=True)
 
-        print(embed.fields)
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
 
