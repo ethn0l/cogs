@@ -59,7 +59,7 @@ def get_profile_by_steamio(inp):
     steam_api = get_profile_by_int64(values[2])
     custom_url = steam_api["profileurl"].split("/")[:-1].pop()
     created = get_real_date(steam_api["timecreated"]) if "timecreated" in steam_api.keys() else "None"
-    profilestate = steam_api["communityvisibilitystate"] - 1
+    profilestate = steam_api["communityvisibilitystate"] - 2
     profilename = steam_api["personaname"] if "personaname" in steam_api.keys() else "None"
     lastlogoff = get_real_date(steam_api["lastlogoff"]) if "lastlogoff" in steam_api.keys() else "None"
 
