@@ -72,7 +72,7 @@ def get_profile_by_steamio(inp):
         "steamid64":values[2],
         "custom_url":values[3],
         "profile_name":profilename,
-        "profile_state": "public" if profile_state else "private",
+        "profile_state": "public" if profilestate else "private",
         "profile_created":created,
         "location":values[7],
         # "status":values[8],
