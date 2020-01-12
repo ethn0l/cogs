@@ -138,7 +138,7 @@ class baited:
             embed_1 = Embed()
             embed_2 = Embed()
 
-            embed_1.add_field(name="Silver 1 ", value="150 Points", inline=True)
+            embed_1.add_field(name="Silver 1", value="150 Points", inline=True)
             embed_1.add_field(name="Gold Nova 1", value="1150 Points", inline=True)
             embed_1.add_field(name="Master Guardian Elite", value="3150 Points", inline=True)
             embed_1.add_field(name="Silver 2", value="250 Points", inline=True)
@@ -160,10 +160,7 @@ class baited:
             for rank in BAITED_RANKS:
                 embed_2.add_field(name=rank["name"], value=rank["value"], inline=True)
             
-            for i, field_1 in enumerate(embed_1.fields):
-                field_2 = embed_2.fields[i]
-
-                print(field_1, field_2)
+            print(embed_2 == embed_1)
 
         await self.bot.say(embed=embed)
         await self.bot.delete_message(ctx.message)
