@@ -274,6 +274,13 @@ class steam:
             steam_reference = ""
             use_admin = (ctx.message.author.permissions_in(ctx.message.channel).kick_members)
 
+            if len(com) <= 2:
+                # check for admin first
+                if not "lvl" in com[2:]:
+                    use_admin = False
+                else:
+                    del com[com.index("lvl")]
+
             if len(com) <= 1:
                 if not one_message:
                     await ctx.bot.send_message(ctx.message.channel, "> No steam reference given.")
@@ -284,13 +291,6 @@ class steam:
             
             elif len(com) >= 3:
                 steam_reference = com[1]
-
-                # check for admin first
-                if not "lvl" in com[2:]:
-                    use_admin = False
-                else:
-                    del com[com.index("lvl")]
-
                 result_only = ' '.join(com[2:])
 
             # Clean steam reference here also, just to get the correct output later on.
