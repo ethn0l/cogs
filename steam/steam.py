@@ -204,6 +204,7 @@ def get_profile_by_steam(inp, isadmin = False):
         total_time_friended = 0 # In months (every 30 days i 1)
         average_time_friended = 0 # Average amount of months you have had a friend
         account_age = 0 # Account age in months too (way too influential other wise, also 1 month every 30 days)
+        time_since_last_played = 0 # Amount of days since the profile was last online/logged in to
 
         # First the basics if the profile is not configured, then you automaticly lose a 100 points.
         profilestate = steam_api["profilestate"]
@@ -232,10 +233,13 @@ def get_profile_by_steam(inp, isadmin = False):
         
         if played_2weeks > MAX_PLAYED_2_WEEKS:
             played_2weeks = 0 # Nulify those points
+        
+        if profilestate and lastlogoff != "None":
+            time_since_last_played = math.floor((current_timestamp - steam_api["lastlogoff"])/60/60/24)
 
         # For now profile trust as a number, this is needed to collect data to make a interval and create
         # a dataset i can train to calculate a procentage.
-        profile_trust = average_played + average_time_friended + account_age + played_2weeks
+        profile_trust = (average_played + average_time_friended + account_age + played_2weeks) - time_since_last_played
 
         ret["profile_trust"] = "lvl " + str(profile_trust)
 
