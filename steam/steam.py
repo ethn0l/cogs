@@ -253,7 +253,8 @@ class steam:
     @commands.command(pass_context=True)
     async def steam(self, ctx):
         """
-        [steam reference] ie. steamID, steamID3, steamID64, a customURL or a full URL
+        1: [steam reference] ie. steamID, steamID3, steamID64, a customURL or a full URL
+        2: [result only] name of element to return ie. steamid or profile url (optional)
 
         Some valid examples:
 
