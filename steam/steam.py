@@ -150,7 +150,7 @@ def get_profile_by_steam(inp, isadmin = False):
         "steamid64":str(steamid64),
         "custom_url":custom_url,
         "profile_name":profilename,
-        "visibility_state": ("public" if created != "None" else "hidden") if communityvisibilitystate else "private",
+        "visibility_state": "public" if communityvisibilitystate else "private",
         "profile_created":created,
         "status": (("Online" if steam_api["personastate"] == 1 else "Away") if steam_api["personastate"] else "Offline") if communityvisibilitystate else "None",
         "last_logoff":lastlogoff,
@@ -174,7 +174,8 @@ def get_profile_by_steam(inp, isadmin = False):
              game = [game for game in games["games"] if game["appid"] == GAME_ID] if communityvisibilitystate else []
 
         else:
-            game = []
+            game = [] # Games are hidden
+            ret["visibility_state"] = "hidden"
 
         # If the account has game
         if len(game) == 1:
