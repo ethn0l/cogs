@@ -109,7 +109,7 @@ def get_profile_by_steam(inp):
     
     # Logic switch that gets steamid64 based on type of steam reference
     if steam_reference_type == "customurl":
-        
+
         url = "https://steamid.io/lookup/" + str(inp)
         req = requests.get(url)
         if req.status_code != 200:
@@ -224,6 +224,9 @@ class steam:
             elif len(com) >= 3:
                 steam_reference = com[1]
                 result_only = ' '.join(com[2:])
+
+            # Clean steam reference here also, just to get the correct output later on.
+            steam_reference = clean_steam_reference(steam_reference)
 
             result = get_profile_by_steam(steam_reference)
     
