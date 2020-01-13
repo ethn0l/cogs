@@ -28,9 +28,9 @@ def clean_steam_reference(steam_reference):
     if "://steamcommunity.com/" in steam_reference:
         sid_split = steam_reference.split("/")
         if steam_reference.endswith("/"):
-            steam_reference = sid_split.pop()
-        else:
             steam_reference = sid_split[:-1].pop()
+        else:
+            steam_reference = sid_split.pop()
 
         return steam_reference
     
