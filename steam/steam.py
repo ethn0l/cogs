@@ -105,7 +105,7 @@ def get_bans_by_int64(int64):
     return json.loads(requests.get("https://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key={}&format=json&steamids={}".format(KEY, str(int64))).text)["players"][0]
 
 def get_int64_by_customurl(customurl):
-    result = json.loads(requests.get("https://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key={}&vanityurl={}".format(KEY, customurl)))["response"]
+    result = json.loads(requests.get("https://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key={}&vanityurl={}".format(KEY, customurl)).text)["response"]
     return result["steamid"] if result["success"] == 1 else 0
 
 def get_friends_by_int64(int64):
