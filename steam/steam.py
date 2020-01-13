@@ -199,6 +199,7 @@ def get_profile_by_steam(inp, isadmin = False):
         # Calculate a Trust-factor of sorts
         profile_trust = 0
         total_played = 0 # In days too
+        average_played = 0 # Average amount of time player in days each year
         played_2weeks = 0 # Amount of hours played recently
         total_time_friended = 0 # In months (every 30 days i 1)
         average_time_friended = 0 # Average amount of months you have had a friend
@@ -207,6 +208,10 @@ def get_profile_by_steam(inp, isadmin = False):
         # First the basics if the profile is not configured, then you automaticly lose a 100 points.
         profilestate = steam_api["profilestate"]
 
+        # Find account age, if profile is private this will be 0.
+        if profilestate and created != "None":
+            account_age = math.floor((current_timestamp - steam_api["timecreated"])/60/60/24/30) # Convert to months
+
         # Start by getting total hours played on a steam profile
         if profilestate and "games" in games.keys():
             for game in games["games"]:
@@ -214,6 +219,8 @@ def get_profile_by_steam(inp, isadmin = False):
 
                 if "playtime_2weeks" in game.keys():
                     played_2weeks += math.floor(game["playtime_2weeks"] / 60)
+            
+            average_played = total_played / (account_age * 12)
         
         # Then get time friended in days
         if profilestate and amount_friends != 0:
@@ -222,16 +229,13 @@ def get_profile_by_steam(inp, isadmin = False):
             
             average_time_friended = math.floor(total_time_friended / amount_friends)
 
-        # Find account age, if profile is private this will be 0.
-        if profilestate and created != "None":
-            account_age = math.floor((current_timestamp - steam_api["timecreated"])/60/60/24/30) # Convert to months
         
         if played_2weeks > MAX_PLAYED_2_WEEKS:
             played_2weeks = 0 # Nulify those points
 
         # For now profile trust as a number, this is needed to collect data to make a interval and create
         # a dataset i can train to calculate a procentage.
-        profile_trust = total_played + average_time_friended + account_age + played_2weeks
+        profile_trust = average_played + average_time_friended + account_age + played_2weeks
 
         ret["profile_trust"] = "lvl " + str(profile_trust)
 
