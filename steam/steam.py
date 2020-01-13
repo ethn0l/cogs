@@ -253,7 +253,7 @@ class steam:
     @commands.command(pass_context=True)
     async def steam(self, ctx):
         """
-        [steam reference] [*lvl*] <- admin only
+        [steam reference] ie. steamID, steamID3, steamID64, a customURL or a full URL
 
         Some valid examples:
 
@@ -272,14 +272,7 @@ class steam:
         try:
             com = ctx.message.content.split(" ")
             steam_reference = ""
-            use_admin = (ctx.message.author.permissions_in(ctx.message.channel).kick_members)
-
-            if len(com) <= 2:
-                # check for admin first
-                if not "lvl" in com[2:]:
-                    use_admin = False
-                else:
-                    com = com[:2]
+            is_admin = (ctx.message.author.permissions_in(ctx.message.channel).kick_members)
 
             if len(com) <= 1:
                 if not one_message:
@@ -296,7 +289,7 @@ class steam:
             # Clean steam reference here also, just to get the correct output later on.
             steam_reference = clean_steam_reference(steam_reference)
 
-            result = get_profile_by_steam(steam_reference, use_admin)
+            result = get_profile_by_steam(steam_reference, is_admin if not result_only else False)
     
             if result:
                 icon = result["avatar"]
