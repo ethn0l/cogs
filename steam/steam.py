@@ -26,7 +26,13 @@ def get_reference_type(steam_reference):
 
 def clean_steam_reference(steam_reference):
     if "://steamcommunity.com/" in steam_reference:
-        return steam_reference.split("/")[:-1].pop()
+        sid_split = steam_reference.split("/")
+        if steam_reference.endswith("/")
+            steam_reference = sid_split.pop()
+        else:
+            steam_reference = sid_split[:-1].pop()
+
+        return steam_reference
     
     else:
         return steam_reference
@@ -179,7 +185,7 @@ def get_profile_by_steam(inp):
                 ret["last_2_weeks"] = str(math.floor(game[0]["playtime_2weeks"] / 60)) + " hours"
 
     # Add profile link last
-    ret["profile_url"] = "https://steamcommunity.com/profiles/" + str(steamid64)
+    ret["profile_url"] = "https://steamcommunity.com/profiles/" + str(steamid64) + "/"
 
     return ret
 
