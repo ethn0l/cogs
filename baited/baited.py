@@ -38,9 +38,9 @@ BAITED_SERVERS = {
 BAITED_RULES = [
     {"name":"Rule 1", "value":"Speak only English via voice or text chat to maintain clear channels of communication."},
     {"name":"Rule 2", "value":"Do not Grief, Cheat, Script or Exploit. If found to be in breach of this rule, bans received will be **permanent** and **unappealable**."},
-    {"name":"Rule 3", "value":"Do not Grief, Cheat, Script or Exploit. If found to be in breach of this rule, bans received will be **permanent** and **unappealable**."},
-    {"name":"Rule 4", "value":"Do not impersonate any Players or Baited Staff."},
-    {"name":"Rule 5", "value":"No 'Smurf'/alt accounts on Baited.\n\n **NOTE: In a rising trend on our Servers, Alts/Smurfs are being frequently used to throw, cheat, or evade previous bans, therefore, if caught using an Alt/Smurf account, it will be permanently banned from the Servers. Bans for this do not carry across accounts. Accounts with VAC / Game Bans received over __365 days__ ago are exempt from this rule.**"},
+    {"name":"Rule 3", "value":"Do not impersonate any Players or Baited Staff."},
+    {"name":"Rule 4", "value":"No 'Smurf'/alt accounts on Baited.\n\n **NOTE: In a rising trend on our Servers, Alts/Smurfs are being frequently used to throw, cheat, or evade previous bans, therefore, if caught using an Alt/Smurf account, it will be permanently banned from the Servers. Bans for this do not carry across accounts. Accounts with VAC / Game Bans received over __365 days__ ago are exempt from this rule.**"},
+    {"name":"Rule 5", "value":"Do not abuse !calladmin. The feature is pivotal for moderating the servers and abuse of the system is dealt with promtly and bans will not be overturned."},
     {"name":"Rule 6", "value":"Advertisements of any kind are forbidden, Soliciting the sales of services (hacks, boosting, etc.), linking players to external sites (Gambling free skins etc), or the promotion of Servers other than Baited.xyz is strictly prohibited."},
     {"name":"Rule 7", "value":"Treat other players with respect. Instances of malicious racism, sexism or homophobia are frowned upon and when found to be in breach of this rule, bans will progressively increase with each cumulative offence."},
     {"name":"Rule 8", "value":"Do not disrupt the Server in any way. Acts of disruption can include, but are not limited to:\n\n - Mic/Chat Spam\n - Trolling\n - Team Flashing \n - Blocking\n - Ghosting\n - Shooting allies to reveal their position"}
