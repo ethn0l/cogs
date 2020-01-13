@@ -193,7 +193,7 @@ def get_profile_by_steam(inp, isadmin = False):
 
         # If friends are public add them to the output
         if communityvisibilitystate:
-            ret["amount_of_friends"] = str(amount_friends) + "Friends"
+            ret["amount_of_friends"] = str(amount_friends) + " Friends"
             
         # Calculate a Trust-factor of sorts
         profile_trust = 0
