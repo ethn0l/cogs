@@ -200,6 +200,7 @@ def get_profile_by_steam(inp, isadmin = False):
         total_played = 0 # In days too
         played_2weeks = 0 # Amount of hours played recently
         total_time_friended = 0 # In months (every 30 days i 1)
+        average_time_friended = 0 # Average amount of months you have had a friend
         account_age = 0 # Account age in months too (way too influential other wise, also 1 month every 30 days)
 
         # First the basics if the profile is not configured, then you automaticly lose a 100 points.
@@ -217,6 +218,8 @@ def get_profile_by_steam(inp, isadmin = False):
         if profilestate and amount_friends != 0:
             for friend in steam_friends:
                 total_time_friended += math.floor((current_timestamp - friend["friend_since"])/60/60/24/30) # Convert to days
+            
+            average_time_friended = math.floor(total_time_friended / amount_friends)
 
         # Find account age, if profile is private this will be 0.
         if profilestate and created != "None":
@@ -227,7 +230,7 @@ def get_profile_by_steam(inp, isadmin = False):
 
         # For now profile trust as a number, this is needed to collect data to make a interval and create
         # a dataset i can train to calculate a procentage.
-        profile_trust = total_played + total_time_friended + account_age + played_2weeks
+        profile_trust = total_played + average_time_friended + account_age + played_2weeks
 
         ret["profile_trust"] = "lvl " + str(profile_trust)
 
