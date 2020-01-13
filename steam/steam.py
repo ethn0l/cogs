@@ -293,12 +293,6 @@ class steam:
 
                 result_only = ' '.join(com[2:])
 
-            
-
-           
-
-            if use_admin:
-
             # Clean steam reference here also, just to get the correct output later on.
             steam_reference = clean_steam_reference(steam_reference)
 
