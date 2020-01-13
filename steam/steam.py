@@ -25,7 +25,7 @@ def get_reference_type(steam_reference):
         return "customurl"
 
 def clean_steam_reference(steam_reference):
-    if "https://steamcommunity.com/" in steam_reference:
+    if "://steamcommunity.com/" in steam_reference:
         return steam_reference.split("/")[:-1].pop()
     
     else:
@@ -157,7 +157,6 @@ def get_profile_by_steam(inp):
         "profile_state": "public" if profilestate else "private",
         "profile_created":created,
         "last_logoff":lastlogoff,
-        "profile_url":"http://steamcommunity.com/profiles/" + str(steamid64),
         "avatar":steam_api["avatarfull"]
     }
 
@@ -178,6 +177,9 @@ def get_profile_by_steam(inp):
             # If they have played in the last 2 weeks mark it down too.
             if "playtime_2weeks" in game[0].keys():
                 ret["last_2_weeks"] = str(math.floor(game[0]["playtime_2weeks"] / 60)) + " hours"
+
+    # Add profile link last
+    ret["profile_url"] = 
 
     return ret
 
