@@ -220,7 +220,7 @@ def get_profile_by_steam(inp, isadmin = False):
                 if "playtime_2weeks" in game.keys():
                     played_2weeks += math.floor(game["playtime_2weeks"] / 60)
             
-            average_played = total_played / (account_age * 12)
+            average_played = math.floor(total_played / (account_age * 12))
         
         # Then get time friended in days
         if profilestate and amount_friends != 0:
