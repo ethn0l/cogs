@@ -94,7 +94,6 @@ class baited:
 
         for arg in args:
             if arg.isnumeric() and len(arg) == 1:
-                print(arg)
                 rule_n = int(arg)
                 break
             else:
