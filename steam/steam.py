@@ -179,7 +179,7 @@ def get_profile_by_steam(inp):
                 ret["last_2_weeks"] = str(math.floor(game[0]["playtime_2weeks"] / 60)) + " hours"
 
     # Add profile link last
-    ret["profile_url"] = 
+    ret["profile_url"] = "https://steamcommunity.com/profiles/" + str(steamid64)
 
     return ret
 
