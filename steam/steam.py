@@ -12,17 +12,77 @@ KEY = "2CD774287543683380F3E200E819F8D4"
 GAME_ID = 730 # Default counter strike
 SM_FORMAT = True # Forcing STEAM_1:X:X instead of STEAM_X:X:X
 
-def get_title_for_box(steam_reference, username):
+def get_reference_type(steam_reference):
     if re.match(r"STEAM_[0-1]:[0-1]:\d+", steam_reference):
-        return steam_reference + " recognized as a STEAMID and found user " + username
+        return "steamid"
 
     elif re.match(r"U:[0-9]:\d{1,20}", steam_reference.strip("[").strip("]")):
-        return steam_reference + " recognized as a STEAMID3 and found user " + username
+        return "steamid3"
 
     elif re.match(r"\d{17}", steam_reference):
+        return "steamid64"
+    else:
+        return "customurl"
+
+def clean_steam_reference(steam_reference):
+    if "https://steamcommunity.com/" in steam_reference:
+        return steam_reference.split("/")[:-1].pop()
+    
+    else:
+        return steam_reference
+
+def get_steamid_by_int64(steamid64):
+  steamid = []
+  steamid.append('STEAM_{}:'.format("1" if SM_FORMAT else "0"))
+  steamidacct = int(steamid64) - 76561197960265728
+  
+  if steamidacct % 2 == 0:
+      steamid.append('0:')
+  else:
+      steamid.append('1:')
+  
+  steamid.append(str(steamidacct // 2))
+  
+  return ''.join(steamid)
+
+def get_int64_by_steamid(steamid):
+  sid_split = steamid.split(':')
+  steamid64 = int(sid_split[2]) * 2
+  
+  if sid_split[1] == '1':
+      steamid64 += 1
+  
+  steamid64 += 76561197960265728
+  return steamid64
+
+def get_steamid3_by_int64(steamid64):
+    steamid3 = []
+    steamid3.append('[U:1:')
+    steamidacct = int(steamid64) - 76561197960265728
+    steamid3.append(str(steamidacct) + ']')
+    
+    return ''.join(steamid3)
+
+def get_int64_by_steamid3(steamid3):
+  for ch in ['[', ']']:
+    if ch in steamid3:
+      steamid3 = steamid3.replace(ch, '')
+  
+  steamid3_split = steamid3.split(':')
+  steamid64 = int(steamid3_split[2]) + 76561197960265728
+  
+  return steamid64
+
+def get_title_for_box(steam_reference, username):
+    if get_reference_type(steam_reference) == "steamid":
+        return steam_reference + " recognized as a STEAMID and found user " + username
+
+    elif get_reference_type(steam_reference) == "steamid3":
+        return steam_reference + " recognized as a STEAMID3 and found user " + username
+
+    elif get_reference_type(steam_reference) == "steamid64":
         return steam_reference + " recognized as a STEAMID64 and found user " + username
     else:
-        # customurl
         return steam_reference + " recognized as a customURL and found user " + username
 
 def get_real_date(ts):
@@ -37,54 +97,73 @@ def get_games_by_int64(int64):
 def get_bans_by_int64(int64):
     return json.loads(requests.get("http://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key={}&format=json".format(KEY) + "&steamids=" + str(int64)).text)["players"][0]
 
-def get_profile_by_steamio(inp):
-    url = "https://steamid.io/lookup/" + str(inp)
-    req = requests.get(url)
-    if req.status_code != 200:
-        print(req.text)
-        return False
+def get_profile_by_steam(inp):
+    # clean steam reference (remove steamcommunity url)
+    steam_reference = clean_steam_reference(inp)
 
-    html = req.text
-    parsed = BeautifulSoup(html, 'html.parser')
-    values = [re.sub("<[^>]*>", "", str(x.find("a"))) for x in parsed.find_all(attrs={"class":"value"})]
+    # Get type of steam reference (fx if it's a custom url use steam.io to parse it)
+    steam_reference_type = get_reference_type(steam_reference)
 
-    i = 0
+    # Set steamid as int
+    steamid64 = int()
+    
+    # Logic switch that gets steamid64 based on type of steam reference
+    if steam_reference_type == "customurl":
+        
+        url = "https://steamid.io/lookup/" + str(inp)
+        req = requests.get(url)
+        if req.status_code != 200:
+            print(req.text)
+            return False
 
-    if len(values) < 10:
-        return False
+        html = req.text
+        parsed = BeautifulSoup(html, 'html.parser')
+        values = [re.sub("<[^>]*>", "", str(x.find("a"))) for x in parsed.find_all(attrs={"class":"value"})]
 
-    elif len(values) > 10:
-        i = len(values) - 10
+        i = 0
+
+        if len(values) < 10:
+            return False
+
+        elif len(values) > 10:
+            i = len(values) - 10
+        
+        steamid64 = values[2]
+    
+    elif steam_reference_type == "steamid":
+        steamid64 = get_int64_by_steamid(steam_reference)
+    
+    elif steam_reference_type == "steamid3":
+        steamid64 = get_int64_by_steamid3(steam_reference)
+    
+    elif steam_reference_type == "steamid64":
+        steamid64 = int(steam_reference)
 
     # STEAM API
-    steam_api = get_profile_by_int64(values[2])
-    custom_url = steam_api["profileurl"].split("/")[:-1].pop()
+    steam_api = get_profile_by_int64(steamid64)
+    profile_link = steam_api["profileurl"]
+    custom_url = profile_link.split("/")[:-1].pop() if "id" in profile_link else "None"
     created = get_real_date(steam_api["timecreated"]) if "timecreated" in steam_api.keys() else "None"
     profilestate = steam_api["communityvisibilitystate"] - 2
     profilename = steam_api["personaname"] if "personaname" in steam_api.keys() else "None"
     lastlogoff = get_real_date(steam_api["lastlogoff"]) if "lastlogoff" in steam_api.keys() else "None"
 
-    if not custom_url.isnumeric():
-        values[3] = custom_url
-
     ret = {
-        "steamid":values[0].replace("0:0:", "1:0:").replace("0:1:", "1:1:") if SM_FORMAT else values[0],
-        "steamid3":values[1],
-        "steamid64":values[2],
-        "custom_url":values[3],
+        "steamid":get_steamid_by_int64(steamid64),
+        "steamid3":get_steamid3_by_int64(steamid64),
+        "steamid64":str(steamid64),
+        "custom_url":custom_url,
         "profile_name":profilename,
         "profile_state": "public" if profilestate else "private",
         "profile_created":created,
-        "location":values[7],
-        # "status":values[8],
         "last_logoff":lastlogoff,
-        "profile_url":values[9+i],
+        "profile_url":"http://steamcommunity.com/profiles/" + str(steamid64),
         "avatar":steam_api["avatarfull"]
     }
 
     # Get all games, but get results for a game specificly if the profile is showing games
     try:
-        game = [game for game in get_games_by_int64(values[2])["games"] if game["appid"] == GAME_ID] if profilestate else []
+        game = [game for game in get_games_by_int64(steamid64)["games"] if game["appid"] == GAME_ID] if profilestate else []
     except KeyError:
         game = [] # Games are hidden
 
@@ -146,7 +225,7 @@ class steam:
                 steam_reference = com[1]
                 result_only = ' '.join(com[2:])
 
-            result = get_profile_by_steamio(steam_reference)
+            result = get_profile_by_steam(steam_reference)
     
             if result:
                 icon = result["avatar"]
