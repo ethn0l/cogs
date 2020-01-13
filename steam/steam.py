@@ -211,7 +211,7 @@ def get_profile_by_steam(inp, isadmin = False):
                 total_played += math.floor(game["playtime_forever"] / 60 / 24)
 
                 if "playtime_2weeks" in game.keys():
-                    played_2weeks += math.floor(["playtime_2weeks"] / 60)
+                    played_2weeks += math.floor(game["playtime_2weeks"] / 60)
         
         # Then get time friended in days
         if profilestate and amount_friends != 0:
