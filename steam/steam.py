@@ -200,7 +200,7 @@ def get_profile_by_steam(inp, isadmin = False):
         total_played = 0 # In days too
         played_2weeks = 0 # Amount of hours played recently
         total_time_friended = 0 # In months (every 30 days i 1)
-        account_age = 0 # Account age in days
+        account_age = 0 # Account age in months too (way too influential other wise, also 1 month every 30 days)
 
         # First the basics if the profile is not configured, then you automaticly lose a 100 points.
         profilestate = steam_api["profilestate"]
@@ -220,7 +220,7 @@ def get_profile_by_steam(inp, isadmin = False):
 
         # Find account age, if profile is private this will be 0.
         if profilestate and created != "None":
-            account_age = math.floor((current_timestamp - steam_api["timecreated"])/60/60/24) # Convert to days
+            account_age = math.floor((current_timestamp - steam_api["timecreated"])/60/60/24/30) # Convert to months
         
         if played_2weeks > MAX_PLAYED_2_WEEKS:
             played_2weeks = 0 # Nulify those points
