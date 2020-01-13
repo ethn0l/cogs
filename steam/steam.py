@@ -284,7 +284,7 @@ class steam:
             # Clean steam reference here also, just to get the correct output later on.
             steam_reference = clean_steam_reference(steam_reference)
 
-            result = get_profile_by_steam(steam_reference, ctx.message.author.mention == Permissions.kick_members)
+            result = get_profile_by_steam(steam_reference, (ctx.message.author.permissions_in(ctx.channel).kick_members))
     
             if result:
                 icon = result["avatar"]
