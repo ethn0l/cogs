@@ -1,16 +1,17 @@
 import re
 import json
 import math
+import time
 from datetime import datetime
 from difflib import get_close_matches
 import requests
-from bs4 import BeautifulSoup
-from discord import Embed
+from discord import Embed, Permissions
 from discord.ext import commands
 
 KEY = "2CD774287543683380F3E200E819F8D4"
 GAME_ID = 730 # Default counter strike
 SM_FORMAT = True # Forcing STEAM_1:X:X instead of STEAM_X:X:X
+MAX_PLAYED_2_WEEKS = 168 # Amount of hours it's normal to play over 2 weeks
 
 def get_reference_type(steam_reference):
     if re.match(r"STEAM_[0-1]:[0-1]:\d+", steam_reference):
@@ -95,19 +96,27 @@ def get_real_date(ts):
     return datetime.utcfromtimestamp(ts).strftime('%d-%m-%Y %H:%M:%S')
 
 def get_profile_by_int64(int64):
-    return json.loads(requests.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={}&format=json".format(KEY) + "&steamids=" + str(int64)).text)["response"]["players"][0]
+    return json.loads(requests.get("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={}&format=json&steamids={}".format(KEY, str(int64))).text)["response"]["players"][0]
 
 def get_games_by_int64(int64):
-    return json.loads(requests.get("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={}&steamid={}&format=json".format(KEY, int64)).text)["response"]
+    return json.loads(requests.get("https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={}&steamid={}&format=json".format(KEY, int64)).text)["response"]
 
 def get_bans_by_int64(int64):
-    return json.loads(requests.get("http://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key={}&format=json".format(KEY) + "&steamids=" + str(int64)).text)["players"][0]
+    return json.loads(requests.get("https://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key={}&format=json&steamids={}".format(KEY, str(int64))).text)["players"][0]
 
-def get_profile_by_steam(inp):
+def get_int64_by_customurl(customurl):
+    result = json.loads(requests.get("https://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key={}&vanityurl={}".format(KEY, customurl)))["response"]
+    return result["steamid"] if result["success"] == 1 else 0
+
+def get_friends_by_int64(int64):
+    friends = json.loads(requests.get("http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key={}&steamid={}&relationship=friend".format(KEY, str(int64))).text)
+    return friends["friendslist"]["friends"] if friends else []
+
+def get_profile_by_steam(inp, isadmin = False):
     # clean steam reference (remove steamcommunity url)
     steam_reference = clean_steam_reference(inp)
 
-    # Get type of steam reference (fx if it's a custom url use steam.io to parse it)
+    # Get type of steam reference (fx if it's a custom url use vanityurl to parse it)
     steam_reference_type = get_reference_type(steam_reference)
 
     # Set steamid as int
@@ -115,26 +124,7 @@ def get_profile_by_steam(inp):
     
     # Logic switch that gets steamid64 based on type of steam reference
     if steam_reference_type == "customurl":
-
-        url = "https://steamid.io/lookup/" + str(inp)
-        req = requests.get(url)
-        if req.status_code != 200:
-            print(req.text)
-            return False
-
-        html = req.text
-        parsed = BeautifulSoup(html, 'html.parser')
-        values = [re.sub("<[^>]*>", "", str(x.find("a"))) for x in parsed.find_all(attrs={"class":"value"})]
-
-        i = 0
-
-        if len(values) < 10:
-            return False
-
-        elif len(values) > 10:
-            i = len(values) - 10
-        
-        steamid64 = values[2]
+        steamid64 = get_int64_by_customurl(steam_reference)
     
     elif steam_reference_type == "steamid":
         steamid64 = get_int64_by_steamid(steam_reference)
@@ -150,7 +140,7 @@ def get_profile_by_steam(inp):
     profile_link = steam_api["profileurl"]
     custom_url = profile_link.split("/")[:-1].pop() if "id" in profile_link else "None"
     created = get_real_date(steam_api["timecreated"]) if "timecreated" in steam_api.keys() else "None"
-    profilestate = steam_api["communityvisibilitystate"] - 2
+    communityvisibilitystate = steam_api["communityvisibilitystate"] - 2
     profilename = steam_api["personaname"] if "personaname" in steam_api.keys() else "None"
     lastlogoff = get_real_date(steam_api["lastlogoff"]) if "lastlogoff" in steam_api.keys() else "None"
 
@@ -160,29 +150,87 @@ def get_profile_by_steam(inp):
         "steamid64":str(steamid64),
         "custom_url":custom_url,
         "profile_name":profilename,
-        "profile_state": "public" if profilestate else "private",
+        "visibility_state": "public" if communityvisibilitystate else "private",
         "profile_created":created,
+        "status": (("Online" if steam_api["personastate"] == 1 else "Away") if steam_api["personastate"] else "Offline") if communityvisibilitystate else "None",
         "last_logoff":lastlogoff,
         "avatar":steam_api["avatarfull"]
     }
 
-    # Get all games, but get results for a game specificly if the profile is showing games
-    try:
-        game = [game for game in get_games_by_int64(steamid64)["games"] if game["appid"] == GAME_ID] if profilestate else []
-    except KeyError:
-        game = [] # Games are hidden
+    
 
+    # Calculate probabillity that the account is an alt (Admin Only)
+    # Also means that multiple api requests are limited for admin use only
+    if isadmin:
+        # Get current time for calculating profile age, friend age and such.
+        current_timestamp = time.time()
 
-    # If the account has game
-    if len(game) == 1:
-        # Check if the account has any hours in game (showing hours)
-        if game[0]["playtime_forever"] != 0:
-            # If so add the hours to the return table under game hours (convert into hours and floor)
-            ret["game_hours"] = str(math.floor(game[0]["playtime_forever"] / 60)) + " hours"
+        # STEAM GAMES
+        # Get all games, but get results for a game specificly if the profile is showing games
+        games = get_games_by_int64(steamid64)
 
-            # If they have played in the last 2 weeks mark it down too.
-            if "playtime_2weeks" in game[0].keys():
-                ret["last_2_weeks"] = str(math.floor(game[0]["playtime_2weeks"] / 60)) + " hours"
+        # Get hours for focus game, in our case it's csgo.
+        if "games" in games.keys():
+             game = [game for game in games["games"] if game["appid"] == GAME_ID] if communityvisibilitystate else []
+
+        else:
+            game = []
+
+        # If the account has game
+        if len(game) == 1:
+            # Check if the account has any hours in game (showing hours)
+            if game[0]["playtime_forever"] != 0:
+                # If so add the hours to the return table under game hours (convert into hours and floor)
+                ret["game_hours"] = str(math.floor(game[0]["playtime_forever"] / 60)) + " hours"
+
+                # If they have played in the last 2 weeks mark it down too.
+                if "playtime_2weeks" in game[0].keys():
+                    ret["last_2_weeks"] = str(math.floor(game[0]["playtime_2weeks"] / 60)) + " hours"
+        
+        # STEAM FRIENDS
+        steam_friends = get_friends_by_int64(steamid64)
+        amount_friends = len(steam_friends)
+
+        # If friends are public add them to the output
+        if communityvisibilitystate:
+            ret["amount_of_friends"] = str(amount_friends) + "Friends"
+            
+        # Calculate a Trust-factor of sorts
+        profile_trust = 0
+        total_played = 0 # In days too
+        played_2weeks = 0 # Amount of hours played recently
+        total_time_friended = 0 # In days
+        account_age = 0 # Account age in days
+
+        # First the basics if the profile is not configured, then you automaticly lose a 100 points.
+        profilestate = steam_api["profilestate"]
+
+        # Start by getting total hours played on a steam profile
+        if profilestate and "games" in games.keys():
+            for game in games["games"]:
+                total_played += math.floor(game["playtime_forever"] / 60 / 24)
+
+                if "playtime_2weeks" in game.keys():
+                    played_2weeks += math.floor(["playtime_2weeks"] / 60)
+        
+        # Then get time friended in days
+        if profilestate and amount_friends != 0:
+            for friend in steam_friends:
+                total_time_friended += math.floor((current_timestamp - friend["friend_since"])/60/60/24) # Convert to days
+
+        # Find account age, if profile is private this will be 0.
+        if profilestate and created != "None":
+            account_age = math.floor((current_timestamp - steam_api["timecreated"])/60/60/24) # Convert to days
+        
+        if played_2weeks > MAX_PLAYED_2_WEEKS:
+            played_2weeks = 0 # Nulify those points
+
+        # For now profile trust as a number, this is needed to collect data to make a interval and create
+        # a dataset i can train to calculate a procentage.
+        profile_trust = total_played + total_time_friended + account_age + played_2weeks
+
+        ret["profile_trust"] = "lvl " + str(profile_trust)
+
 
     # Add profile link last
     ret["profile_url"] = "https://steamcommunity.com/profiles/" + str(steamid64) + "/"
@@ -195,7 +243,7 @@ class steam:
         self.bot = bot
 
     """
-    COG that provides the command [p]steam, that can parse steam input and return steamio.io details.
+    COG that provides the command [p]steam, that can parse steam input and return steam details.
     """
 
     @commands.command(pass_context=True)
@@ -210,8 +258,8 @@ class steam:
         a steamID3 without brackets	U:1:22202
         a steamID64	                76561197960287930
         a customURL	                gabelogannewell
-        a full URL	                http://steamcommunity.com/profiles/76561197960287930
-        a full URL with customURL	http://steamcommunity.com/id/gabelogannewell
+        a full URL	                https://steamcommunity.com/profiles/76561197960287930
+        a full URL with customURL	https://steamcommunity.com/id/gabelogannewell
         """
 
         one_message = False
@@ -236,7 +284,7 @@ class steam:
             # Clean steam reference here also, just to get the correct output later on.
             steam_reference = clean_steam_reference(steam_reference)
 
-            result = get_profile_by_steam(steam_reference)
+            result = get_profile_by_steam(steam_reference, ctx.message.author.mention == Permissions.kick_members)
     
             if result:
                 icon = result["avatar"]
@@ -308,7 +356,7 @@ class steam:
         except Exception as e:
             print(e)
             if not one_message:
-                await ctx.bot.send_message(ctx.message.channel, "> Failed to load steam.io/steam api. See console for error dump.")
+                await ctx.bot.send_message(ctx.message.channel, "> Failed to load steam api. See console for error dump.")
                 one_message = True
         
         await self.bot.delete_message(ctx.message) # delete message when done
