@@ -279,7 +279,7 @@ class steam:
                 if not "lvl" in com[2:]:
                     use_admin = False
                 else:
-                    del com[com.index("lvl")]
+                    com = com[:2]
 
             if len(com) <= 1:
                 if not one_message:
