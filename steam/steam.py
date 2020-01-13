@@ -199,7 +199,7 @@ def get_profile_by_steam(inp, isadmin = False):
         profile_trust = 0
         total_played = 0 # In days too
         played_2weeks = 0 # Amount of hours played recently
-        total_time_friended = 0 # In days
+        total_time_friended = 0 # In months (every 30 days i 1)
         account_age = 0 # Account age in days
 
         # First the basics if the profile is not configured, then you automaticly lose a 100 points.
@@ -216,7 +216,7 @@ def get_profile_by_steam(inp, isadmin = False):
         # Then get time friended in days
         if profilestate and amount_friends != 0:
             for friend in steam_friends:
-                total_time_friended += math.floor((current_timestamp - friend["friend_since"])/60/60/24) # Convert to days
+                total_time_friended += math.floor((current_timestamp - friend["friend_since"])/60/60/24/30) # Convert to days
 
         # Find account age, if profile is private this will be 0.
         if profilestate and created != "None":
