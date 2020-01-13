@@ -172,7 +172,6 @@ def get_profile_by_steam(inp, isadmin = False):
         # Get hours for focus game, in our case it's csgo.
         if "games" in games.keys():
              game = [game for game in games["games"] if game["appid"] == GAME_ID] if communityvisibilitystate else []
-
         else:
             game = [] # Games are hidden
             ret["visibility_state"] = "hidden"
@@ -203,7 +202,7 @@ def get_profile_by_steam(inp, isadmin = False):
         played_2weeks = 0 # Amount of hours played recently
         total_time_friended = 0 # In months (every 30 days i 1)
         average_time_friended = 0 # Average amount of months you have had a friend
-        account_age = 0 # Account age in months too (way too influential other wise, also 1 month every 30 days)
+        account_age = 0 # Account age in years too (way too influential other wise, also 1 month every 30 days)
         time_since_last_played = 0 # Amount of days since the profile was last online/logged in to
 
         # First the basics if the profile is not configured, then you automaticly lose a 100 points.
@@ -211,7 +210,7 @@ def get_profile_by_steam(inp, isadmin = False):
 
         # Find account age, if profile is private this will be 0.
         if profilestate and created != "None":
-            account_age = math.floor((current_timestamp - steam_api["timecreated"])/60/60/24/30) # Convert to months
+            account_age = math.floor((current_timestamp - steam_api["timecreated"])/60/60/24/30/12) # Convert to years
 
         # Start by getting total hours played on a steam profile
         if profilestate and "games" in games.keys():
@@ -221,7 +220,7 @@ def get_profile_by_steam(inp, isadmin = False):
                 if "playtime_2weeks" in game.keys():
                     played_2weeks += math.floor(game["playtime_2weeks"] / 60)
             
-            average_played = math.floor(total_played / (account_age * 12))
+            average_played = math.floor(total_played / account_age if account_age > 0 else 1)
         
         # Then get time friended in days
         if profilestate and amount_friends != 0:
@@ -241,7 +240,7 @@ def get_profile_by_steam(inp, isadmin = False):
         # a dataset i can train to calculate a procentage.
         profile_trust = (average_played + average_time_friended + account_age + played_2weeks) - time_since_last_played
 
-        ret["profile_trust"] = "lvl " + str(profile_trust)
+        ret["activity_score"] = str(profile_trust)
 
 
     # Add profile link last

@@ -3,3 +3,6 @@ __pycache__/
 
 # Mac os system files
 .DS_Store
+
+# test files
+*test*
