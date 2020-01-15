@@ -225,7 +225,7 @@ def get_profile_by_steam(inp, isadmin = False):
         # Then get time friended in days
         if profilestate and amount_friends != 0:
             for friend in steam_friends:
-                total_time_friended += math.floor((current_timestamp - friend["friend_since"])/60/60/24/30) # Convert to days
+                total_time_friended += math.floor((current_timestamp - friend["friend_since"])/60/60/24/30) # Convert to months
             
             average_time_friended = math.floor(total_time_friended / amount_friends)
 
